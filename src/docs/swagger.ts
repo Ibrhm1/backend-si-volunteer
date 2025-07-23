@@ -29,11 +29,27 @@ const doc = {
         confirmPassword: 'Ibrhm123',
       },
       LoginRequest: {
-        identifier: 'Ibrhm22',
+        identifier: 'Ibrhm22 / ibrhm@yopmail.com',
         password: 'Ibrhm123',
       },
       ActivationRequest: {
-        code: '',
+        code: 'activationCode',
+      },
+      RegisterOrganizerRequest: {
+        organizerName: 'organizer 1',
+        email: 'abc@gmail.com',
+        contactPerson: 'Jajang',
+        phone: '0812345678',
+        address: 'Jln. Mangga 2',
+        password: 'Admin123',
+        confirmPassword: 'Admin123',
+      },
+      LoginOrganizerRequest: {
+        identifier: 'abc@gmail.com / organizer 1',
+        password: 'Admin123',
+      },
+      ActivationOrganizerRequest: {
+        code: 'activationCode',
       },
     },
   },

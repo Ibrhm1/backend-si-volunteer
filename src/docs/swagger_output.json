@@ -63,24 +63,6 @@
         }
       }
     },
-    "/auth/me": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
     "/auth/activation": {
       "post": {
         "tags": [
@@ -107,6 +89,116 @@
             }
           }
         }
+      }
+    },
+    "/auth/getProfile": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/register/organizer": {
+      "post": {
+        "tags": [
+          "Auth Organizer"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterOrganizerRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterOrganizerRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login/organizer": {
+      "post": {
+        "tags": [
+          "Auth Organizer"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginOrganizerRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/activation/organizer": {
+      "post": {
+        "tags": [
+          "Auth Organizer"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivationOrganizerRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/getOrganizer": {
+      "get": {
+        "tags": [
+          "Auth Organizer"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     }
   },
@@ -151,7 +243,7 @@
         "properties": {
           "identifier": {
             "type": "string",
-            "example": "Ibrhm22"
+            "example": "Ibrhm22 / ibrhm@yopmail.com"
           },
           "password": {
             "type": "string",
@@ -167,11 +259,75 @@
         "properties": {
           "code": {
             "type": "string",
-            "example": ""
+            "example": "activationCode"
           }
         },
         "xml": {
           "name": "ActivationRequest"
+        }
+      },
+      "RegisterOrganizerRequest": {
+        "type": "object",
+        "properties": {
+          "organizerName": {
+            "type": "string",
+            "example": "organizer 1"
+          },
+          "email": {
+            "type": "string",
+            "example": "abc@gmail.com"
+          },
+          "contactPerson": {
+            "type": "string",
+            "example": "Jajang"
+          },
+          "phone": {
+            "type": "string",
+            "example": "0812345678"
+          },
+          "address": {
+            "type": "string",
+            "example": "Jln. Mangga 2"
+          },
+          "password": {
+            "type": "string",
+            "example": "Admin123"
+          },
+          "confirmPassword": {
+            "type": "string",
+            "example": "Admin123"
+          }
+        },
+        "xml": {
+          "name": "RegisterOrganizerRequest"
+        }
+      },
+      "LoginOrganizerRequest": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "example": "abc@gmail.com / organizer 1"
+          },
+          "password": {
+            "type": "string",
+            "example": "Admin123"
+          }
+        },
+        "xml": {
+          "name": "LoginOrganizerRequest"
+        }
+      },
+      "ActivationOrganizerRequest": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "activationCode"
+          }
+        },
+        "xml": {
+          "name": "ActivationOrganizerRequest"
         }
       }
     }

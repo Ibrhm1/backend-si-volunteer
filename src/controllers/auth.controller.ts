@@ -67,7 +67,6 @@ export default {
       response.error(res, error, err.message);
     }
   },
-
   async login(req: Request, res: Response) {
     const { identifier, password } = req.body as unknown as TLogin;
     try {
@@ -93,7 +92,6 @@ export default {
       const token = generateToken({
         id: userByIdentifier._id,
         role: userByIdentifier.role,
-        active: userByIdentifier.active,
       });
 
       response.success(res, token, 'Success login!');
@@ -128,6 +126,8 @@ export default {
           new: true,
         }
       );
+
+      if (!user) return response.notFound(res, 'User not found');
 
       response.success(res, user, 'Success activation');
     } catch (error) {

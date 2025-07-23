@@ -14,7 +14,7 @@ export interface IUser {
   password: string;
   role: string;
   profilePicture?: string;
-  noTelphone?: number;
+  phone?: number;
   active: boolean;
   activationCode: string;
   createdAt?: string;
@@ -49,7 +49,7 @@ const UserSchema = new Schema<IUser>(
       type: Schema.Types.String,
       default: 'profile.png',
     },
-    noTelphone: {
+    phone: {
       type: Schema.Types.Number,
     },
     active: {

@@ -16,5 +16,14 @@ export default (req: Request, res: Response, next: NextFunction) => {
 
   (req as IReqUser).user = user;
 
+  const organizer = getUserData(token);
+  if (!organizer) return response.unauthorized(res, 'Invalid token');
+
+  // Ensure organizer.phone is a string if it exists
+  (req as IReqUser).organizer = {
+    ...organizer,
+    phone: organizer.phone !== undefined ? String(organizer.phone) : undefined,
+  };
+
   next();
 };
