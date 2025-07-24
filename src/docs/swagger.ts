@@ -46,7 +46,7 @@ const doc = {
         confirmPassword: 'Organizer123',
         contactPerson: 'John Doe',
         descriptionOrganizer: 'Organizer Description',
-        dateEstablished: '2025-01-01',
+        dateEstablished: 'YYYY-MM-DD',
         phone: '0812345678',
         location: {
           domicile: 'Region Id',
@@ -67,6 +67,19 @@ const doc = {
       },
       DeleteFileRequest: {
         fileUrl: 'File Url',
+      },
+      CreateEventRequest: {
+        name: 'Test Event',
+        description: 'description test event',
+        startDate: 'YYYY-MM-DD HH:MM:SS',
+        endDate: 'YYYY-MM-DD HH:MM:SS',
+        isOnline: false,
+        category: 'Category Id',
+        location: {
+          region: 'Region Id',
+          address: 'Jln. Merdeka',
+        },
+        image: 'file Url ',
       },
     },
   },

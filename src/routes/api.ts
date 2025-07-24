@@ -8,6 +8,7 @@ import { ROLES } from '../utils/constant';
 import mediaMiddleware from '../middlewares/media.middleware';
 import imageController from '../controllers/image.controller';
 import regionController from '../controllers/region.controller';
+import eventsController from '../controllers/events.controller';
 
 const router = express.Router();
 
@@ -176,12 +177,78 @@ router.delete(
    */
 );
 
+//* routes event
+router.post(
+  '/events',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
+  eventsController.createEvent
+  /*
+    #swagger.tags = ['Events'],
+    #swagger.security = [{ "bearerAuth": {} }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: '#/components/schemas/CreateEventRequest'}
+      },
+    }
+   */
+);
+router.get(
+  '/events',
+  eventsController.getAllEvents
+  /*
+    #swagger.tags = ['Events']
+    #swagger.parameters['limit'] = { in: 'query', type: 'number', default: 10 }
+    #swagger.parameters['page'] = { in: 'query', type: 'number', default: 1 }
+    #swagger.parameters['category'] = { in: 'query', type: 'string' }
+    #swagger.parameters['isOnline'] = { in: 'query', type: 'boolean' }
+    #swagger.parameters['isPublish'] = { in: 'query', type: 'boolean' }
+   */
+);
+router.get(
+  '/events/:id',
+  eventsController.getEventById
+  /*
+    #swagger.tags = ['Events'],
+   */
+);
+router.put(
+  '/events/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
+  eventsController.updateEvent
+  /*
+    #swagger.tags = ['Events'],
+    #swagger.security = [{ "bearerAuth": {} }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: '#/components/schemas/CreateEventRequest'}
+      },
+    }
+   */
+);
+router.delete(
+  '/events/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
+  eventsController.deleteEvent
+  /*
+    #swagger.tags = ['Events'],
+    #swagger.security = [{ "bearerAuth": {} }]
+   */
+);
+router.get(
+  '/events/:slug/slug',
+  eventsController.getEventBySlug
+  /*
+    #swagger.tags = ['Events'],
+   */
+);
+
 //* router upload image
 router.post(
   '/image/upload-single',
   [
     authMiddleware,
-    aclMiddleware([ROLES.ADMIN, ROLES.MEMBER, ROLES.ORGANIZER]),
     mediaMiddleware.singleUpload('file'),
   ],
   imageController.uploadSingle
