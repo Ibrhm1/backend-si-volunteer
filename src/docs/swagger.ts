@@ -51,6 +51,11 @@ const doc = {
       ActivationOrganizerRequest: {
         code: 'activationCode',
       },
+      CreateCategoryRequest: {
+        name: 'Category Name',
+        description: 'Category Description',
+        image: 'File Url',
+      },
     },
   },
 };

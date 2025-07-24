@@ -2,6 +2,9 @@ import express from 'express';
 import authController from '../controllers/auth.controller';
 import authMiddleware from '../middlewares/auth.middleware';
 import authOrganizerController from '../controllers/authOrganizer.controller';
+import categoriesController from '../controllers/categories.controller';
+import aclMiddleware from '../middlewares/acl.middleware';
+import { ROLES } from '../utils/constant';
 
 const router = express.Router();
 
@@ -104,4 +107,70 @@ router.get(
     #swagger.security = [{ "bearerAuth": [] }]
     */
 );
+
+//* router category
+router.post(
+  '/category',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
+  categoriesController.createCategory
+  /*
+    #swagger.tags = ['Category'],
+    #swagger.security = [{ "bearerAuth": {} }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: '#/components/schemas/CreateCategoryRequest'}
+      },
+    }
+   */
+);
+router.get(
+  '/category',
+  categoriesController.getCategory
+  /*
+    #swagger.tags = ['Category'],
+    #swagger.parameters['limit'] = {
+      in: 'query',
+      type: 'number',
+      default: 10
+    }
+    #swagger.parameters['page'] = {
+      in: 'query',
+      type: 'number',
+      default: 1
+    }
+   */
+);
+router.get(
+  '/category/:id',
+  categoriesController.getCategoryById
+  /*
+    #swagger.tags = ['Category'],
+   */
+);
+router.put(
+  '/category/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
+  categoriesController.updateCategory
+  /*
+    #swagger.tags = ['Category'],
+    #swagger.security = [{ "bearerAuth": {} }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: '#/components/schemas/CreateCategoryRequest'}
+      },
+    }
+   */
+);
+router.delete(
+  '/category/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
+  categoriesController.deleteCategory
+  /*
+    #swagger.tags = ['Category'],
+    #swagger.security = [{ "bearerAuth": {} }]
+   */
+);
+
 export default router;
