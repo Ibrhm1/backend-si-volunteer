@@ -12,6 +12,10 @@ const doc = {
       url: 'http://localhost:3000/api',
       description: 'Local server',
     },
+    {
+      url: 'https://api-si-volunteer.vercel.app/api',
+      description: 'Production server',
+    },
   ],
   components: {
     securitySchemes: {
@@ -36,17 +40,22 @@ const doc = {
         code: 'activationCode',
       },
       RegisterOrganizerRequest: {
-        organizerName: 'organizer 1',
-        email: 'abc@gmail.com',
-        contactPerson: 'Jajang',
+        organizerName: 'Organizer Name',
+        email: 'emailOrganizer@gmail.com',
+        password: 'Organizer123',
+        confirmPassword: 'Organizer123',
+        contactPerson: 'John Doe',
+        descriptionOrganizer: 'Organizer Description',
+        dateEstablished: '2025-01-01',
         phone: '0812345678',
-        address: 'Jln. Mangga 2',
-        password: 'Admin123',
-        confirmPassword: 'Admin123',
+        location: {
+          domicile: 'Region Id',
+          address: 'Jln. Mangga 2',
+        },
       },
       LoginOrganizerRequest: {
-        identifier: 'abc@gmail.com / organizer 1',
-        password: 'Admin123',
+        identifier: 'emailOrganizer@gmail.com / Organizer Name',
+        password: 'Organizer123',
       },
       ActivationOrganizerRequest: {
         code: 'activationCode',

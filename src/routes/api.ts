@@ -7,6 +7,7 @@ import aclMiddleware from '../middlewares/acl.middleware';
 import { ROLES } from '../utils/constant';
 import mediaMiddleware from '../middlewares/media.middleware';
 import imageController from '../controllers/image.controller';
+import regionController from '../controllers/region.controller';
 
 const router = express.Router();
 
@@ -220,4 +221,50 @@ router.delete(
     }
    */
 );
+
+//* router region
+router.get(
+  '/regions',
+  regionController.getAllProvinces
+  /*
+    #swagger.tags = ['Regions'],
+   */
+);
+router.get(
+  '/regions/:id/province',
+  regionController.getProvince
+  /*
+    #swagger.tags = ['Regions'],
+   */
+);
+router.get(
+  '/regions/:id/regency',
+  regionController.getRegency
+  /*
+    #swagger.tags = ['Regions'],
+   */
+);
+router.get(
+  '/regions/:id/district',
+  regionController.getDistrict
+  /*
+    #swagger.tags = ['Regions'],
+   */
+);
+router.get(
+  '/regions/:id/village',
+  regionController.getVillage
+  /*
+    #swagger.tags = ['Regions'],
+   */
+);
+router.get(
+  '/regions-search',
+  regionController.findByCity
+  /*
+    #swagger.tags = ['Regions'],
+    #swagger.description = 'Search regions by city name',
+   */
+);
+
 export default router;

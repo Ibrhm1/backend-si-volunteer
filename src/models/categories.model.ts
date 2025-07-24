@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import * as Yup from 'yup';
 
 const Schema = mongoose.Schema;
+
 export const CATEGORY_MODEL_NAME = 'Category';
 
 export const categoryDAO = Yup.object({

@@ -14,7 +14,12 @@ export interface IOrganizer {
   role: string;
   contactPerson?: string;
   phone?: string;
-  address?: string;
+  descriptionOrganizer?: string;
+  dateEstablished: string;
+  location: {
+    domicile: string;
+    address: string;
+  };
   logo?: string;
   verified?: boolean;
   active: boolean;
@@ -47,8 +52,22 @@ const OrganizerSchema = new Schema<IOrganizer>(
     phone: {
       type: Schema.Types.String,
     },
-    address: {
+    descriptionOrganizer: {
       type: Schema.Types.String,
+    },
+    dateEstablished: {
+      type: Schema.Types.String,
+      required: true,
+    },
+    location: {
+      type: {
+        domicile: {
+          type: Schema.Types.String,
+        },
+        address: {
+          type: Schema.Types.String,
+        },
+      },
     },
     logo: {
       type: Schema.Types.String,

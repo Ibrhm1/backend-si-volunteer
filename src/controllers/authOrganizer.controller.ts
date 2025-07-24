@@ -13,7 +13,12 @@ type TypeRegisterOrganizer = {
   confirmPassword: string;
   contactPerson?: string;
   phone?: string;
-  address?: string;
+  descriptionOrganizer?: string;
+  dateEstablished: string;
+  location: {
+    domicile?: string;
+    address?: string;
+  };
 };
 
 type TypeOrganizerLogin = {
@@ -41,8 +46,12 @@ const registerOrganizerSchema = Yup.object({
     .required()
     .oneOf([Yup.ref('password'), ''], "Password doesn't match"),
   contactPerson: Yup.string(),
-  phone: Yup.string(),
-  address: Yup.string(),
+  descriptionOrganizer: Yup.string(),
+  dateEstablished: Yup.string(),
+  location: Yup.object({
+    domicile: Yup.string(),
+    address: Yup.string(),
+  }).required(),
 });
 
 export default {
@@ -52,9 +61,11 @@ export default {
       email,
       password,
       confirmPassword,
-      address,
       contactPerson,
       phone,
+      dateEstablished,
+      descriptionOrganizer,
+      location,
     } = req.body as unknown as TypeRegisterOrganizer;
 
     try {
@@ -63,6 +74,11 @@ export default {
         email,
         password,
         confirmPassword,
+        contactPerson,
+        phone,
+        descriptionOrganizer,
+        dateEstablished,
+        location,
       });
 
       const organizer = await OrganizerModel.create({
@@ -71,7 +87,9 @@ export default {
         password,
         contactPerson,
         phone,
-        address,
+        descriptionOrganizer,
+        dateEstablished,
+        location,
       });
 
       response.success(res, organizer, 'Success registration');

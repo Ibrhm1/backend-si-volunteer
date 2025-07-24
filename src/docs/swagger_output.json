@@ -9,6 +9,10 @@
     {
       "url": "http://localhost:3000/api",
       "description": "Local server"
+    },
+    {
+      "url": "https://api-si-volunteer.vercel.app/api",
+      "description": "Production server"
     }
   ],
   "paths": {
@@ -426,6 +430,133 @@
           }
         }
       }
+    },
+    "/regions": {
+      "get": {
+        "tags": [
+          "Regions"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/regions/{id}/province": {
+      "get": {
+        "tags": [
+          "Regions"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/regions/{id}/regency": {
+      "get": {
+        "tags": [
+          "Regions"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/regions/{id}/district": {
+      "get": {
+        "tags": [
+          "Regions"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/regions/{id}/village": {
+      "get": {
+        "tags": [
+          "Regions"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/regions-search": {
+      "get": {
+        "tags": [
+          "Regions"
+        ],
+        "description": "Search regions by city name",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
     }
   },
   "components": {
@@ -497,31 +628,48 @@
         "properties": {
           "organizerName": {
             "type": "string",
-            "example": "organizer 1"
+            "example": "Organizer Name"
           },
           "email": {
             "type": "string",
-            "example": "abc@gmail.com"
+            "example": "emailOrganizer@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "Organizer123"
+          },
+          "confirmPassword": {
+            "type": "string",
+            "example": "Organizer123"
           },
           "contactPerson": {
             "type": "string",
-            "example": "Jajang"
+            "example": "John Doe"
+          },
+          "descriptionOrganizer": {
+            "type": "string",
+            "example": "Organizer Description"
+          },
+          "dateEstablished": {
+            "type": "string",
+            "example": "2025-01-01"
           },
           "phone": {
             "type": "string",
             "example": "0812345678"
           },
-          "address": {
-            "type": "string",
-            "example": "Jln. Mangga 2"
-          },
-          "password": {
-            "type": "string",
-            "example": "Admin123"
-          },
-          "confirmPassword": {
-            "type": "string",
-            "example": "Admin123"
+          "location": {
+            "type": "object",
+            "properties": {
+              "domicile": {
+                "type": "string",
+                "example": "Region Id"
+              },
+              "address": {
+                "type": "string",
+                "example": "Jln. Mangga 2"
+              }
+            }
           }
         },
         "xml": {
@@ -533,11 +681,11 @@
         "properties": {
           "identifier": {
             "type": "string",
-            "example": "abc@gmail.com / organizer 1"
+            "example": "emailOrganizer@gmail.com / Organizer Name"
           },
           "password": {
             "type": "string",
-            "example": "Admin123"
+            "example": "Organizer123"
           }
         },
         "xml": {

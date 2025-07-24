@@ -14,7 +14,16 @@ export interface IUserToken
 export interface IOrganizerToken
   extends Omit<
     IOrganizer,
-    'organizerName' | 'email' | 'password' | 'active' | 'activationCode'
+    | 'organizerName'
+    | 'email'
+    | 'password'
+    | 'active'
+    | 'activationCode'
+    | 'location'
+    | 'phone'
+    | 'contactPerson'
+    | 'descriptionOrganizer'
+    | 'dateEstablished'
   > {
   id?: Types.ObjectId;
 }
