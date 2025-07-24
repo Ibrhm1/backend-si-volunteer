@@ -6,10 +6,7 @@ const upload = multer({
 });
 
 export default {
-  single(fieldName: string) {
+  singleUpload(fieldName: string) {
     return upload.single(fieldName);
-  },
-  multiple(fieldName: string) {
-    return upload.array(fieldName);
   },
 };

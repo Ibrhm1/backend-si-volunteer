@@ -56,6 +56,9 @@ const doc = {
         description: 'Category Description',
         image: 'File Url',
       },
+      DeleteFileRequest: {
+        fileUrl: 'File Url',
+      },
     },
   },
 };

@@ -5,6 +5,8 @@ import authOrganizerController from '../controllers/authOrganizer.controller';
 import categoriesController from '../controllers/categories.controller';
 import aclMiddleware from '../middlewares/acl.middleware';
 import { ROLES } from '../utils/constant';
+import mediaMiddleware from '../middlewares/media.middleware';
+import imageController from '../controllers/image.controller';
 
 const router = express.Router();
 
@@ -173,4 +175,49 @@ router.delete(
    */
 );
 
+//* router upload image
+router.post(
+  '/image/upload-single',
+  [
+    authMiddleware,
+    aclMiddleware([ROLES.ADMIN, ROLES.MEMBER, ROLES.ORGANIZER]),
+    mediaMiddleware.singleUpload('file'),
+  ],
+  imageController.uploadSingle
+  /*
+    #swagger.tags = ['Image File'],
+    #swagger.security = [{ "bearerAuth": {} }]
+    #swagger.requestBody = {
+      required: true,
+      content: {
+        'multipart/form-data': {
+          schema: {
+            type: 'object',
+            properties: {
+              file: {
+                type: 'string',
+                format: 'binary',
+              },
+            },
+          },
+        },
+      },
+    }
+   */
+);
+router.delete(
+  '/image/delete-file',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.MEMBER])],
+  imageController.deleteFile
+  /*
+    #swagger.tags = ['Image File'],
+    #swagger.security = [{ "bearerAuth": {} }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: '#/components/schemas/DeleteFileRequest'
+      }
+    }
+   */
+);
 export default router;

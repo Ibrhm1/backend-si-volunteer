@@ -359,6 +359,73 @@
           }
         ]
       }
+    },
+    "/image/upload-single": {
+      "post": {
+        "tags": [
+          "Image File"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/image/delete-file": {
+      "delete": {
+        "tags": [
+          "Image File"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteFileRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteFileRequest"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -507,6 +574,18 @@
         },
         "xml": {
           "name": "CreateCategoryRequest"
+        }
+      },
+      "DeleteFileRequest": {
+        "type": "object",
+        "properties": {
+          "fileUrl": {
+            "type": "string",
+            "example": "File Url"
+          }
+        },
+        "xml": {
+          "name": "DeleteFileRequest"
         }
       }
     }
