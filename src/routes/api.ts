@@ -22,7 +22,7 @@ router.post(
       required: true,
       schema: {$ref: '#/components/schemas/RegisterRequest'}
     }
-    */
+  */
 );
 router.post(
   '/auth/login',
@@ -37,7 +37,7 @@ router.post(
         }
       }
     }
-    */
+  */
 );
 router.post(
   '/auth/activation',
@@ -48,7 +48,7 @@ router.post(
     required: true,
     schema: {$ref: '#/components/schemas/ActivationRequest'}
     }
-    */
+  */
 );
 router.get(
   '/auth/getProfile',
@@ -57,7 +57,33 @@ router.get(
   /*
     #swagger.tags = ['Auth']
     #swagger.security = [{ "bearerAuth": [] }]
-    */
+  */
+);
+router.put(
+  '/auth/update-profile',
+  authMiddleware,
+  authController.updateProfile
+  /*
+  #swagger.tags = ['Auth']
+  #swagger.security = [{ "bearerAuth": [] }]
+  #swagger.requestBody = {
+    required: true,
+    schema: {$ref: '#/components/schemas/UpdateProfileRequest'}
+    }
+  */
+);
+router.put(
+  '/auth/update-password',
+  authMiddleware,
+  authController.updatePassword
+  /*
+  #swagger.tags = ['Auth']
+  #swagger.security = [{ "bearerAuth": [] }]
+  #swagger.requestBody = {
+    required: true,
+    schema: {$ref: '#/components/schemas/UpdatePasswordRequest'}
+    }
+  */
 );
 
 //* routes organizer
@@ -70,7 +96,7 @@ router.post(
       required: true,
       schema: {$ref: '#/components/schemas/RegisterOrganizerRequest'}
     }
-    */
+  */
 );
 router.post(
   '/auth/login/organizer',
@@ -85,7 +111,7 @@ router.post(
         }
       }
     }
-    */
+  */
 );
 router.post(
   '/auth/activation/organizer',
@@ -110,6 +136,32 @@ router.get(
     #swagger.tags = ['Auth Organizer']
     #swagger.security = [{ "bearerAuth": [] }]
     */
+);
+router.put(
+  '/auth/update-profile/organizer',
+  [authMiddleware, aclMiddleware([ROLES.ORGANIZER])],
+  authOrganizerController.updateProfileOrganizer
+  /*
+  #swagger.tags = ['Auth Organizer']
+  #swagger.security = [{ "bearerAuth": [] }]
+  #swagger.requestBody = {
+    required: true,
+    schema: {$ref: '#/components/schemas/UpdateProfileOrganizerRequest'}
+    }
+    */
+);
+router.put(
+  '/auth/update-password/organizer',
+  authMiddleware,
+  authOrganizerController.updatePasswordOrganizer
+  /*
+  #swagger.tags = ['Auth Organizer']
+  #swagger.security = [{ "bearerAuth": [] }]
+  #swagger.requestBody = {
+    required: true,
+    schema: {$ref: '#/components/schemas/UpdatePasswordOrganizerRequest'}
+    }
+  */
 );
 
 //* router category
@@ -212,6 +264,13 @@ router.get(
     #swagger.tags = ['Events'],
    */
 );
+router.get(
+  '/events/:slug/slug',
+  eventsController.getEventBySlug
+  /*
+    #swagger.tags = ['Events'],
+   */
+);
 router.put(
   '/events/:id',
   [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
@@ -236,21 +295,11 @@ router.delete(
     #swagger.security = [{ "bearerAuth": {} }]
    */
 );
-router.get(
-  '/events/:slug/slug',
-  eventsController.getEventBySlug
-  /*
-    #swagger.tags = ['Events'],
-   */
-);
 
 //* router upload image
 router.post(
   '/image/upload-single',
-  [
-    authMiddleware,
-    mediaMiddleware.singleUpload('file'),
-  ],
+  [authMiddleware, mediaMiddleware.singleUpload('file')],
   imageController.uploadSingle
   /*
     #swagger.tags = ['Image File'],

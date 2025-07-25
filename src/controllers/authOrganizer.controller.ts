@@ -1,58 +1,13 @@
 import { Request, Response } from 'express';
-import * as Yup from 'yup';
 import response from '../utils/response';
-import OrganizerModel from '../models/organizers.model';
+import OrganizerModel, {
+  organizerDTO,
+  organizerLoginDTO,
+  organizerUpdatePasswordDTO,
+} from '../models/organizers.model';
 import { encrypt } from '../utils/encryption';
 import { generateTokenOrganizer } from '../utils/jwt';
 import { IReqUser } from '../utils/interfaces';
-
-type TypeRegisterOrganizer = {
-  organizerName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  contactPerson?: string;
-  phone?: string;
-  descriptionOrganizer?: string;
-  dateEstablished: string;
-  location: {
-    domicile?: string;
-    address?: string;
-  };
-};
-
-type TypeOrganizerLogin = {
-  identifier: string;
-  password: string;
-};
-
-const registerOrganizerSchema = Yup.object({
-  organizerName: Yup.string().required(),
-  email: Yup.string().email().required(),
-  password: Yup.string()
-    .required()
-    .min(6, 'Password must be at least 6 characters')
-    .test(
-      'at least one uppercase',
-      'Password must contain at least one uppercase letter',
-      (value) => /[A-Z]/.test(value || '')
-    )
-    .test(
-      'at least one number',
-      'Password must contain at least one number',
-      (value) => /[0-9]/.test(value || '')
-    ),
-  confirmPassword: Yup.string()
-    .required()
-    .oneOf([Yup.ref('password'), ''], "Password doesn't match"),
-  contactPerson: Yup.string(),
-  descriptionOrganizer: Yup.string(),
-  dateEstablished: Yup.string(),
-  location: Yup.object({
-    domicile: Yup.string(),
-    address: Yup.string(),
-  }).required(),
-});
 
 export default {
   async registerOrganizer(req: Request, res: Response) {
@@ -66,10 +21,10 @@ export default {
       dateEstablished,
       descriptionOrganizer,
       location,
-    } = req.body as unknown as TypeRegisterOrganizer;
+    } = req.body;
 
     try {
-      await registerOrganizerSchema.validate({
+      await organizerDTO.validate({
         organizerName,
         email,
         password,
@@ -99,8 +54,9 @@ export default {
     }
   },
   async loginOrganizer(req: Request, res: Response) {
-    const { identifier, password } = req.body as unknown as TypeOrganizerLogin;
     try {
+      const { identifier, password } = req.body;
+      await organizerLoginDTO.validate({ identifier, password });
       const loginOrganizer = await OrganizerModel.findOne({
         $or: [
           {
@@ -160,6 +116,75 @@ export default {
         return response.notFound(res, 'Organizer not found or token invalid');
 
       response.success(res, result, 'Success get organizer profile');
+    } catch (error) {
+      const err = error as unknown as Error;
+      response.error(res, error, err.message);
+    }
+  },
+
+  async updateProfileOrganizer(req: IReqUser, res: Response) {
+    try {
+      const organizerId = req.organizer?.id;
+      if (!organizerId) return response.notFound(res, 'Organizer not found');
+
+      const {
+        organizerName,
+        contactPerson,
+        phone,
+        descriptionOrganizer,
+        dateEstablished,
+        logo,
+        location,
+        domicile,
+        address,
+      } = req.body;
+      const result = await OrganizerModel.findByIdAndUpdate(
+        organizerId,
+        {
+          organizerName,
+          contactPerson,
+          phone,
+          descriptionOrganizer,
+          dateEstablished,
+          logo,
+          location,
+          domicile,
+          address,
+        },
+        { new: true }
+      );
+      if (!result) return response.notFound(res, 'Organizer not found');
+
+      response.success(res, result, 'Success update profile');
+    } catch (error) {
+      const err = error as unknown as Error;
+      response.error(res, error, err.message);
+    }
+  },
+  async updatePasswordOrganizer(req: IReqUser, res: Response) {
+    try {
+      const organizerId = req.organizer?.id;
+      if (!organizerId) return response.notFound(res, 'Organizer not found');
+      const { oldPassword, password, confirmPassword } = req.body;
+
+      await organizerUpdatePasswordDTO.validate({
+        oldPassword,
+        password,
+        confirmPassword,
+      });
+
+      const organizer = await OrganizerModel.findById(organizerId);
+      if (!organizer || organizer.password !== encrypt(oldPassword))
+        return response.notFound(res, 'User not found');
+
+      const result = await OrganizerModel.findByIdAndUpdate(
+        organizerId,
+        {
+          password: encrypt(password),
+        },
+        { new: true }
+      );
+      response.success(res, result, 'Success update password');
     } catch (error) {
       const err = error as unknown as Error;
       response.error(res, error, err.message);

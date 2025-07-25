@@ -1,12 +1,20 @@
 import { Types } from 'mongoose';
-import { IUser } from '../models/user.model';
+import { User } from '../models/user.model';
 import { Request } from 'express';
 import { IOrganizer } from '../models/organizers.model';
 
 export interface IUserToken
   extends Omit<
-    IUser,
-    'fullName' | 'email' | 'username' | 'password' | 'activationCode' | 'active'
+    User,
+    | 'fullName'
+    | 'email'
+    | 'username'
+    | 'password'
+    | 'activationCode'
+    | 'active'
+    | 'address'
+    | 'phone'
+    | 'profilePicture'
   > {
   id?: Types.ObjectId;
 }
@@ -24,6 +32,8 @@ export interface IOrganizerToken
     | 'contactPerson'
     | 'descriptionOrganizer'
     | 'dateEstablished'
+    | 'logo'
+    | 'verified'
   > {
   id?: Types.ObjectId;
 }

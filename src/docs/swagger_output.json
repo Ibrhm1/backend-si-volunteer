@@ -113,6 +113,72 @@
         ]
       }
     },
+    "/auth/update-profile": {
+      "put": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/update-password": {
+      "put": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePasswordRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePasswordRequest"
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/register/organizer": {
       "post": {
         "tags": [
@@ -203,6 +269,72 @@
             "bearerAuth": []
           }
         ]
+      }
+    },
+    "/auth/update-profile/organizer": {
+      "put": {
+        "tags": [
+          "Auth Organizer"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileOrganizerRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileOrganizerRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/update-password/organizer": {
+      "put": {
+        "tags": [
+          "Auth Organizer"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePasswordOrganizerRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePasswordOrganizerRequest"
+              }
+            }
+          }
+        }
       }
     },
     "/category": {
@@ -783,7 +915,15 @@
           },
           "email": {
             "type": "string",
-            "example": "ibrhm@yopmail.com"
+            "example": "ibrhm@gmail.com"
+          },
+          "address": {
+            "type": "string",
+            "example": "Jln Merderka 123"
+          },
+          "phone": {
+            "type": "string",
+            "example": "123123"
           },
           "password": {
             "type": "string",
@@ -803,7 +943,7 @@
         "properties": {
           "identifier": {
             "type": "string",
-            "example": "Ibrhm22 / ibrhm@yopmail.com"
+            "example": "Ibrhm22"
           },
           "password": {
             "type": "string",
@@ -824,6 +964,50 @@
         },
         "xml": {
           "name": "ActivationRequest"
+        }
+      },
+      "UpdateProfileRequest": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "example": "Iib Ibrahim Update"
+          },
+          "phone": {
+            "type": "string",
+            "example": "123123"
+          },
+          "address": {
+            "type": "string",
+            "example": "Jln Merderka 123"
+          },
+          "profilePicture": {
+            "type": "string",
+            "example": "Update-profile.png"
+          }
+        },
+        "xml": {
+          "name": "UpdateProfileRequest"
+        }
+      },
+      "UpdatePasswordRequest": {
+        "type": "object",
+        "properties": {
+          "oldPassword": {
+            "type": "string",
+            "example": "Ibrhm123"
+          },
+          "password": {
+            "type": "string",
+            "example": "Ibrhm1234"
+          },
+          "confirmPassword": {
+            "type": "string",
+            "example": "Ibrhm1234"
+          }
+        },
+        "xml": {
+          "name": "UpdatePasswordRequest"
         }
       },
       "RegisterOrganizerRequest": {
@@ -905,6 +1089,71 @@
         },
         "xml": {
           "name": "ActivationOrganizerRequest"
+        }
+      },
+      "UpdateProfileOrganizerRequest": {
+        "type": "object",
+        "properties": {
+          "organizerName": {
+            "type": "string",
+            "example": "Organizer Update 2"
+          },
+          "contactPerson": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "phone": {
+            "type": "string",
+            "example": "08123456789"
+          },
+          "descriptionOrganizer": {
+            "type": "string",
+            "example": "ini update deskripsi"
+          },
+          "dateEstablished": {
+            "type": "string",
+            "example": "YYYY-MM-DD"
+          },
+          "location": {
+            "type": "object",
+            "properties": {
+              "domicile": {
+                "type": "string",
+                "example": "asdqw"
+              },
+              "address": {
+                "type": "string",
+                "example": "asd"
+              }
+            }
+          },
+          "logo": {
+            "type": "string",
+            "example": "update.png"
+          }
+        },
+        "xml": {
+          "name": "UpdateProfileOrganizerRequest"
+        }
+      },
+      "UpdatePasswordOrganizerRequest": {
+        "type": "object",
+        "properties": {
+          "oldPassword": {
+            "type": "string",
+            "example": "Admin123"
+          },
+          "password": {
+            "type": "string",
+            "example": "Organizer2"
+          },
+          "confirmPassword": {
+            "type": "string",
+            "example": "Organizer2"
+          }
+        },
+        "xml": {
+          "name": "UpdatePasswordOrganizerRequest"
         }
       },
       "CreateCategoryRequest": {

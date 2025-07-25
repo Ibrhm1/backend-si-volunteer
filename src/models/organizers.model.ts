@@ -4,24 +4,57 @@ import { encrypt } from '../utils/encryption';
 import { ROLES } from '../utils/constant';
 
 const Schema = mongoose.Schema;
-
 export const ORGANIZER_MODEL_NAME = 'Orginizer';
 
-export interface IOrganizer {
-  organizerName: string;
-  email: string;
-  password: string;
+const validatePasswordOrganizer = Yup.string()
+  .required()
+  .min(6, 'Password must be at least 6 characters')
+  .test(
+    'at least one uppercase',
+    'Password must contain at least one uppercase letter',
+    (value) => /[A-Z]/.test(value || '')
+  )
+  .test(
+    'at least one number',
+    'Password must contain at least one number',
+    (value) => /[0-9]/.test(value || '')
+  );
+
+const validateConfirmPasswordOrganizer = Yup.string()
+  .required()
+  .oneOf([Yup.ref('password'), ''], "Password doesn't match");
+
+export const organizerDTO = Yup.object({
+  organizerName: Yup.string().required(),
+  email: Yup.string().email().required(),
+  password: validatePasswordOrganizer,
+  confirmPassword: validateConfirmPasswordOrganizer,
+  contactPerson: Yup.string().required(),
+  phone: Yup.string().required(),
+  descriptionOrganizer: Yup.string(),
+  dateEstablished: Yup.string().required(),
+  location: Yup.object({
+    domicile: Yup.string(),
+    address: Yup.string(),
+  }).required(),
+});
+
+export const organizerLoginDTO = Yup.object({
+  identifier: Yup.string().required(),
+  password: validatePasswordOrganizer,
+});
+
+export const organizerUpdatePasswordDTO = Yup.object({
+  oldPassword: validatePasswordOrganizer,
+  password: validatePasswordOrganizer,
+  confirmPassword: validateConfirmPasswordOrganizer,
+});
+
+export type TyperOrganizer = Yup.InferType<typeof organizerDTO>;
+export interface IOrganizer extends Omit<TyperOrganizer, 'confirmPassword'> {
   role: string;
-  contactPerson?: string;
-  phone?: string;
-  descriptionOrganizer?: string;
-  dateEstablished: string;
-  location: {
-    domicile: string;
-    address: string;
-  };
-  logo?: string;
-  verified?: boolean;
+  logo: string;
+  verified: boolean;
   active: boolean;
   activationCode: string;
   createdAt?: string;
@@ -57,7 +90,6 @@ const OrganizerSchema = new Schema<IOrganizer>(
     },
     dateEstablished: {
       type: Schema.Types.String,
-      required: true,
     },
     location: {
       type: {

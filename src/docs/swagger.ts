@@ -28,16 +28,29 @@ const doc = {
       RegisterRequest: {
         fullName: 'Iib Ibrahim',
         username: 'Ibrhm22',
-        email: 'ibrhm@yopmail.com',
+        email: 'ibrhm@gmail.com',
+        address: 'Jln Merderka 123',
+        phone: '123123',
         password: 'Ibrhm123',
         confirmPassword: 'Ibrhm123',
       },
       LoginRequest: {
-        identifier: 'Ibrhm22 / ibrhm@yopmail.com',
+        identifier: 'Ibrhm22',
         password: 'Ibrhm123',
       },
       ActivationRequest: {
         code: 'activationCode',
+      },
+      UpdateProfileRequest: {
+        fullName: 'Iib Ibrahim Update',
+        phone: '123123',
+        address: 'Jln Merderka 123',
+        profilePicture: 'Update-profile.png',
+      },
+      UpdatePasswordRequest: {
+        oldPassword: 'Ibrhm123',
+        password: 'Ibrhm1234',
+        confirmPassword: 'Ibrhm1234',
       },
       RegisterOrganizerRequest: {
         organizerName: 'Organizer Name',
@@ -59,6 +72,23 @@ const doc = {
       },
       ActivationOrganizerRequest: {
         code: 'activationCode',
+      },
+      UpdateProfileOrganizerRequest: {
+        organizerName: 'Organizer Update 2',
+        contactPerson: 'John Doe',
+        phone: '08123456789',
+        descriptionOrganizer: 'ini update deskripsi',
+        dateEstablished: 'YYYY-MM-DD',
+        location: {
+          domicile: 'asdqw',
+          address: 'asd',
+        },
+        logo: 'update.png',
+      },
+      UpdatePasswordOrganizerRequest: {
+        oldPassword: 'Admin123',
+        password: 'Organizer2',
+        confirmPassword: 'Organizer2',
       },
       CreateCategoryRequest: {
         name: 'Category Name',
