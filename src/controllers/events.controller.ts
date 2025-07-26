@@ -7,7 +7,10 @@ import { FilterQuery, isValidObjectId } from 'mongoose';
 export default {
   async createEvent(req: IReqUser, res: Response) {
     try {
-      const payload = { ...req.body, createdBy: req.user?.id } as TypeEvent;
+      const payload = {
+        ...req.body,
+        createdBy: req.organizer?.id,
+      } as TypeEvent;
       await EventDAO.validate(payload);
       const result = await EventModel.create(payload);
       response.success(res, result, 'Success create event');

@@ -7,24 +7,34 @@ export const EVENT_MODEL_NAME = 'Event';
 const Schema = mongoose.Schema;
 
 export const EventDAO = Yup.object({
-  name: Yup.string().required(),
-  startDate: Yup.string().required(),
-  endDate: Yup.string().required(),
-  description: Yup.string().required(),
-  image: Yup.string().required(),
-  isOnline: Yup.boolean().required(),
-  isPublish: Yup.boolean(),
-  category: Yup.string().required(),
+  name: Yup.string()
+    .required('Event name is required')
+    .max(100, 'Event name must not be more than 100 characters'),
+  description: Yup.string()
+    .required('Description is required')
+    .min(20, 'Description must be at least 20 characters'),
+  startDate: Yup.string().required('Start date is required'),
+  endDate: Yup.string().required('End Date Is Required'),
+  image: Yup.string().required('Image is required'),
+  category: Yup.string().required('Category is required'),
+  isOnline: Yup.boolean().required('Online status is required'),
+  isPublish: Yup.boolean().required('Publish status is required'),
+  isFeatured: Yup.boolean().required('Featured status is required'),
+  location: Yup.object().shape({
+    region: Yup.number().required('Region is required'),
+    address: Yup.string().required('Address is required'),
+  }),
+  requiredVolunteers: Yup.number()
+    .required('The number of volunteers needed must be filled in')
+    .min(1, 'Minimum number of volunteers is 1'),
+  currentVolunteers: Yup.number(),
+  requirements: Yup.string().required('Requirements are required'),
+  benefits: Yup.string(),
+  tags: Yup.array().of(Yup.string().max(30)).optional(),
   slug: Yup.string(),
-  createdBy: Yup.string().required(),
   createdAt: Yup.string(),
   updatedAt: Yup.string(),
-  location: Yup.object()
-    .shape({
-      region: Yup.number().required(),
-      address: Yup.string().required(),
-    })
-    .required(),
+  createdBy: Yup.string().required(),
 });
 
 export type TypeEvent = Yup.InferType<typeof EventDAO>;
@@ -37,6 +47,10 @@ export interface IEvent extends Omit<TypeEvent, 'category' | 'createdBy'> {
 const EventSchema = new Schema<IEvent>(
   {
     name: {
+      type: Schema.Types.String,
+      required: true,
+    },
+    description: {
       type: Schema.Types.String,
       required: true,
     },
@@ -63,20 +77,11 @@ const EventSchema = new Schema<IEvent>(
     },
     isPublish: {
       type: Schema.Types.Boolean,
-      default: false,
-    },
-    description: {
-      type: Schema.Types.String,
       required: true,
     },
-    createdBy: {
-      type: Schema.Types.ObjectId,
+    isFeatured: {
+      type: Schema.Types.Boolean,
       required: true,
-      ref: ORGANIZER_MODEL_NAME,
-    },
-    slug: {
-      type: Schema.Types.String,
-      unique: true,
     },
     location: {
       type: {
@@ -87,6 +92,32 @@ const EventSchema = new Schema<IEvent>(
           type: Schema.Types.String,
         },
       },
+    },
+    requiredVolunteers: {
+      type: Schema.Types.Number,
+      reuired: true,
+    },
+    currentVolunteers: {
+      type: Schema.Types.Number,
+    },
+    requirements: {
+      type: Schema.Types.String,
+      required: true,
+    },
+    benefits: {
+      type: Schema.Types.String,
+    },
+    tags: {
+      type: [Schema.Types.String],
+    },
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: ORGANIZER_MODEL_NAME,
+    },
+    slug: {
+      type: Schema.Types.String,
+      unique: true,
     },
   },
   {
