@@ -120,7 +120,7 @@ const OrganizerSchema = new Schema<IOrganizer>(
   {
     timestamps: true,
   }
-);
+).index({ organizerName: 'text' });
 
 OrganizerSchema.pre('save', function (next) {
   const organizer = this;

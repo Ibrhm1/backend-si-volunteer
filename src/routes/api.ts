@@ -137,6 +137,23 @@ router.get(
     #swagger.security = [{ "bearerAuth": [] }]
     */
 );
+router.get(
+  '/organizers',
+  authOrganizerController.getAllOrganizers
+  /*
+    #swagger.tags = ['Auth Organizer']
+    #swagger.parameters['limit'] = { in: 'query', type: 'number', default: 10 }
+    #swagger.parameters['page'] = { in: 'query', type: 'number', default: 1 }
+   */
+);
+router.get(
+  '/organizers/:organizerId',
+  authOrganizerController.getOrganizerById
+  /*
+  #swagger.tags = ['Auth Organizer']
+  #swagger.parameters['organizerId'] = { in: 'path', type: 'string' }
+  */
+);
 router.put(
   '/auth/update-profile/organizer',
   [authMiddleware, aclMiddleware([ROLES.ORGANIZER])],
@@ -161,6 +178,16 @@ router.put(
     required: true,
     schema: {$ref: '#/components/schemas/UpdatePasswordOrganizerRequest'}
     }
+  */
+);
+router.delete(
+  '/organizer/:organizerId',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  authOrganizerController.deleteOrganizer
+  /*
+  #swagger.tags = ['Auth Organizer']
+  #swagger.security = [{ "bearerAuth": [] }]
+  #swagger.parameters['organizerId'] = { in: 'path', type: 'string' }
   */
 );
 

@@ -271,6 +271,67 @@
         ]
       }
     },
+    "/organizers": {
+      "get": {
+        "tags": [
+          "Auth Organizer"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "default": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "default": 1,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/organizers/{organizerId}": {
+      "get": {
+        "tags": [
+          "Auth Organizer"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "organizerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/auth/update-profile/organizer": {
       "put": {
         "tags": [
@@ -335,6 +396,34 @@
             }
           }
         }
+      }
+    },
+    "/organizer/{organizerId}": {
+      "delete": {
+        "tags": [
+          "Auth Organizer"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "organizerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/category": {

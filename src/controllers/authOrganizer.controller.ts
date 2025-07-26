@@ -7,7 +7,8 @@ import OrganizerModel, {
 } from '../models/organizers.model';
 import { encrypt } from '../utils/encryption';
 import { generateTokenOrganizer } from '../utils/jwt';
-import { IReqUser } from '../utils/interfaces';
+import { IPaginationQuery, IReqUser } from '../utils/interfaces';
+import { isValidObjectId } from 'mongoose';
 
 export default {
   async registerOrganizer(req: Request, res: Response) {
@@ -68,8 +69,9 @@ export default {
         ],
         active: true,
       });
-      if (!loginOrganizer)
-        return response.unauthorized(res, 'Organizer not found');
+      if (!loginOrganizer) return response.notFound(res, 'Organizer not found');
+      if (!loginOrganizer?.activationCode)
+        return response.unauthorized(res, 'Organizer is not active');
 
       const validatePassword: boolean =
         encrypt(password) === loginOrganizer.password;
@@ -121,7 +123,6 @@ export default {
       response.error(res, error, err.message);
     }
   },
-
   async updateProfileOrganizer(req: IReqUser, res: Response) {
     try {
       const organizerId = req.organizer?.id;
@@ -185,6 +186,75 @@ export default {
         { new: true }
       );
       response.success(res, result, 'Success update password');
+    } catch (error) {
+      const err = error as unknown as Error;
+      response.error(res, error, err.message);
+    }
+  },
+  async getAllOrganizers(req: IReqUser, res: Response) {
+    const {
+      limit = 10,
+      page = 1,
+      search,
+    } = req.query as unknown as IPaginationQuery;
+    try {
+      const query = {};
+      if (search) {
+        Object.assign(query, {
+          ...query,
+          $text: { $search: search },
+        });
+      }
+
+      const result = await OrganizerModel.find(query)
+        .limit(limit)
+        .skip((page - 1) * limit)
+        .sort({ createdAt: -1 })
+        .exec();
+
+      const count = await OrganizerModel.countDocuments(query);
+      response.pagination(
+        res,
+        result,
+        {
+          current: page,
+          total: count,
+          totalPages: Math.ceil(count / limit),
+        },
+        'Success get all organizers'
+      );
+    } catch (error) {
+      const err = error as unknown as Error;
+      response.error(res, error, err.message);
+    }
+  },
+  async getOrganizerById(req: IReqUser, res: Response) {
+    try {
+      const { organizerId } = req.params;
+      if (!isValidObjectId(organizerId))
+        return response.notFound(res, 'Id is invalid');
+
+      const result = await OrganizerModel.findById(organizerId);
+      if (!result) return response.notFound(res, 'Organizer not found');
+
+      response.success(res, result, 'Success get organizer by id');
+    } catch (error) {
+      const err = error as unknown as Error;
+      response.error(res, error, err.message);
+    }
+  },
+  async deleteOrganizer(req: IReqUser, res: Response) {
+    try {
+      const { organizerId } = req.params;
+      if (!isValidObjectId(organizerId))
+        return response.notFound(res, 'Id is invalid');
+
+      const result = await OrganizerModel.findByIdAndDelete(organizerId, {
+        new: true,
+      });
+      if (!result) return response.notFound(res, 'Organizer not found');
+
+      response.success(res, result, 'Success delete organizer');
     } catch (error) {
       const err = error as unknown as Error;
       response.error(res, error, err.message);
