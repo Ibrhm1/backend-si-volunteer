@@ -9,6 +9,7 @@ import mediaMiddleware from '../middlewares/media.middleware';
 import imageController from '../controllers/image.controller';
 import regionController from '../controllers/region.controller';
 import eventsController from '../controllers/events.controller';
+import faqController from '../controllers/faq.controller';
 
 const router = express.Router();
 
@@ -185,9 +186,9 @@ router.delete(
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
   authOrganizerController.deleteOrganizer
   /*
-  #swagger.tags = ['Auth Organizer']
-  #swagger.security = [{ "bearerAuth": [] }]
-  #swagger.parameters['organizerId'] = { in: 'path', type: 'string' }
+    #swagger.tags = ['Auth Organizer']
+    #swagger.security = [{ "bearerAuth": [] }]
+    #swagger.parameters['organizerId'] = { in: 'path', type: 'string' }
   */
 );
 
@@ -205,7 +206,7 @@ router.post(
         $ref: '#/components/schemas/CreateCategoryRequest'}
       },
     }
-   */
+  */
 );
 router.get(
   '/category',
@@ -222,14 +223,14 @@ router.get(
       type: 'number',
       default: 1
     }
-   */
+  */
 );
 router.get(
   '/category/:id',
   categoriesController.getCategoryById
   /*
     #swagger.tags = ['Category'],
-   */
+  */
 );
 router.put(
   '/category/:id',
@@ -244,7 +245,7 @@ router.put(
         $ref: '#/components/schemas/CreateCategoryRequest'}
       },
     }
-   */
+  */
 );
 router.delete(
   '/category/:id',
@@ -253,7 +254,7 @@ router.delete(
   /*
     #swagger.tags = ['Category'],
     #swagger.security = [{ "bearerAuth": {} }]
-   */
+  */
 );
 
 //* routes event
@@ -270,7 +271,7 @@ router.post(
         $ref: '#/components/schemas/CreateEventRequest'}
       },
     }
-   */
+  */
 );
 router.get(
   '/events',
@@ -282,7 +283,7 @@ router.get(
     #swagger.parameters['category'] = { in: 'query', type: 'string' }
     #swagger.parameters['isOnline'] = { in: 'query', type: 'boolean' }
     #swagger.parameters['isPublish'] = { in: 'query', type: 'boolean' }
-   */
+  */
 );
 router.get(
   '/events/:id',
@@ -296,7 +297,7 @@ router.get(
   eventsController.getEventBySlug
   /*
     #swagger.tags = ['Events'],
-   */
+  */
 );
 router.put(
   '/events/:id',
@@ -311,7 +312,7 @@ router.put(
         $ref: '#/components/schemas/CreateEventRequest'}
       },
     }
-   */
+  */
 );
 router.delete(
   '/events/:id',
@@ -320,7 +321,64 @@ router.delete(
   /*
     #swagger.tags = ['Events'],
     #swagger.security = [{ "bearerAuth": {} }]
+  */
+);
+
+//* router FaQ
+router.post(
+  '/Faq',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  faqController.createFAQ
+  /*
+    #swagger.tags = ['Frequently Asked Questions'],
+    #swagger.security = [{ "bearerAuth": {} }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: '#/components/schemas/CreateFAQRequest'}
+      },
+    }
    */
+);
+router.get(
+  '/Faq',
+  faqController.getFAQ
+  /*
+    #swagger.tags = ['Frequently Asked Questions'],
+    #swagger.parameters['limit'] = { in: 'query', type: 'number', default: 10 }
+    #swagger.parameters['page'] = { in: 'query', type: 'number', default: 1 }
+  */
+);
+router.get(
+  '/Faq/:id',
+  faqController.getFAQById
+  /*
+    #swagger.tags = ['Frequently Asked Questions'],
+  */
+);
+router.put(
+  '/Faq/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  faqController.updateFAQ
+  /*
+    #swagger.tags = ['Frequently Asked Questions'],
+    #swagger.security = [{ "bearerAuth": {} }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: '#/components/schemas/CreateFAQRequest'}
+      },
+    }
+   */
+);
+router.delete(
+  '/Faq/:id',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  faqController.deleteFAQ
+  /*
+    #swagger.tags = ['Frequently Asked Questions'],
+    #swagger.security = [{ "bearerAuth": {} }]
+  */
 );
 
 //* router upload image

@@ -788,6 +788,165 @@
         }
       }
     },
+    "/Faq": {
+      "post": {
+        "tags": [
+          "Frequently Asked Questions"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFAQRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFAQRequest"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Frequently Asked Questions"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "default": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "default": 1,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/Faq/{id}": {
+      "get": {
+        "tags": [
+          "Frequently Asked Questions"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Frequently Asked Questions"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFAQRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFAQRequest"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Frequently Asked Questions"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ]
+      }
+    },
     "/image/upload-single": {
       "post": {
         "tags": [
@@ -1282,48 +1441,108 @@
         "properties": {
           "name": {
             "type": "string",
-            "example": "Test Event"
+            "example": "Aksi Bersih Sungai Ciliwung"
           },
           "description": {
             "type": "string",
-            "example": "description test event"
+            "example": "Kami membuka kesempatan bagi para relawan untuk berpartisipasi dalam kegiatan pembersihan sungai Ciliwung demi menciptakan lingkungan yang lebih sehat dan bebas sampah."
           },
           "startDate": {
             "type": "string",
-            "example": "YYYY-MM-DD HH:MM:SS"
+            "example": "2025-09-15T07:30:00Z"
           },
           "endDate": {
             "type": "string",
-            "example": "YYYY-MM-DD HH:MM:SS"
+            "example": "2025-09-15T12:00:00Z"
           },
-          "isOnline": {
-            "type": "boolean",
-            "example": false
+          "image": {
+            "type": "string",
+            "example": "file Url"
           },
           "category": {
             "type": "string",
             "example": "Category Id"
           },
+          "isOnline": {
+            "type": "boolean",
+            "example": false
+          },
+          "isPublish": {
+            "type": "boolean",
+            "example": true
+          },
+          "isFeatured": {
+            "type": "boolean",
+            "example": false
+          },
           "location": {
             "type": "object",
             "properties": {
               "region": {
-                "type": "string",
-                "example": "Region Id"
+                "type": "number",
+                "example": 31
               },
               "address": {
                 "type": "string",
-                "example": "Jln. Merdeka"
+                "example": "Jl. Otto Iskandardinata, Kampung Melayu, Jakarta Timur"
               }
             }
           },
-          "image": {
+          "requiredVolunteers": {
+            "type": "number",
+            "example": 50
+          },
+          "currentVolunteers": {
+            "type": "number",
+            "example": 10
+          },
+          "requirements": {
             "type": "string",
-            "example": "file Url "
+            "example": "Sehat jasmani, membawa alat kebersihan sendiri (sarung tangan, karung, dll.), dan tidak takut kotor."
+          },
+          "benefits": {
+            "type": "string",
+            "example": "Sertifikat partisipasi, konsumsi, dan kaos kegiatan."
+          },
+          "tags": {
+            "type": "array",
+            "example": [
+              "lingkungan",
+              "sungai",
+              "relawan",
+              "Jakarta"
+            ],
+            "items": {
+              "type": "string"
+            }
           }
         },
         "xml": {
           "name": "CreateEventRequest"
+        }
+      },
+      "CreateFAQRequest": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string",
+            "example": "Bagaimana cara mendaftar sebagai relawan?"
+          },
+          "answer": {
+            "type": "string",
+            "example": "Kepo"
+          },
+          "type": {
+            "type": "string",
+            "example": "member"
+          },
+          "isPublish": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "xml": {
+          "name": "CreateFAQRequest"
         }
       }
     }

@@ -3,3 +3,8 @@ export enum ROLES {
   MEMBER = 'member',
   ORGANIZER = 'organizer',
 }
+
+export enum TYPE {
+  MEMBER = 'member',
+  ORGANIZER = 'organizer',
+}

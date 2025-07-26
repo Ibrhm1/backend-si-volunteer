@@ -120,6 +120,12 @@ const doc = {
         benefits: 'Sertifikat partisipasi, konsumsi, dan kaos kegiatan.',
         tags: ['lingkungan', 'sungai', 'relawan', 'Jakarta'],
       },
+      CreateFAQRequest: {
+        question: 'Bagaimana cara mendaftar sebagai relawan?',
+        answer: 'Kepo',
+        type: 'member', //* member, organizer
+        isPublish: true,
+      },
     },
   },
 };

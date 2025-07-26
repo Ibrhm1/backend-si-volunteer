@@ -1,27 +1,26 @@
 import { Response } from 'express';
 import { IPaginationQuery, IReqUser } from '../utils/interfaces';
 import response from '../utils/response';
-import CategoryModel, { categoryDAO } from '../models/categories.model';
+import FaqModel, { faqDAO } from '../models/faq.model';
 import { isValidObjectId } from 'mongoose';
 
 export default {
-  async createCategory(req: IReqUser, res: Response) {
+  async createFAQ(req: IReqUser, res: Response) {
     try {
-      await categoryDAO.validate(req.body);
-      const result = await CategoryModel.create(req.body);
-      response.success(res, result, 'Success create category');
+      await faqDAO.validate(req.body);
+      const result = await FaqModel.create(req.body);
+      response.success(res, result, 'Success create faq');
     } catch (error) {
       const err = error as unknown as Error;
       response.error(res, error, err.message);
     }
   },
-  async getCategory(req: IReqUser, res: Response) {
+  async getFAQ(req: IReqUser, res: Response) {
     const {
       limit = 10,
       page = 1,
       search,
     } = req.query as unknown as IPaginationQuery;
-
     try {
       const query = {};
       if (search) {
@@ -30,14 +29,13 @@ export default {
           $text: { $search: search },
         });
       }
-
-      const result = await CategoryModel.find(query)
+      const result = await FaqModel.find(query)
         .limit(limit)
         .skip((page - 1) * limit)
         .sort({ createdAt: -1 })
         .exec();
 
-      const count = await CategoryModel.countDocuments(query);
+      const count = await FaqModel.countDocuments(query);
       response.pagination(
         res,
         result,
@@ -46,55 +44,52 @@ export default {
           total: count,
           totalPages: Math.ceil(count / limit),
         },
-        'Success get category'
+        'Success get faqs'
       );
     } catch (error) {
       const err = error as unknown as Error;
       response.error(res, error, err.message);
     }
   },
-  async getCategoryById(req: IReqUser, res: Response) {
+  async getFAQById(req: IReqUser, res: Response) {
     try {
       const { id } = req.params;
-      if (!isValidObjectId(id))
-        return response.notFound(res, 'Category not found');
+      if (!isValidObjectId(id)) return response.notFound(res, 'FAQ not found');
 
-      const result = await CategoryModel.findById(id);
-      if (!result) return response.notFound(res, 'Category not found');
+      const result = await FaqModel.findById(id);
+      if (!result) return response.notFound(res, 'FAQ not found');
 
-      response.success(res, result, 'Success get category');
+      response.success(res, result, 'Success get faq by id');
     } catch (error) {
       const err = error as unknown as Error;
       response.error(res, error, err.message);
     }
   },
-  async updateCategory(req: IReqUser, res: Response) {
+  async updateFAQ(req: IReqUser, res: Response) {
     try {
       const { id } = req.params;
-      if (!isValidObjectId(id))
-        return response.notFound(res, 'Category not found');
+      if (!isValidObjectId(id)) return response.notFound(res, 'FAQ not found');
 
-      const result = await CategoryModel.findByIdAndUpdate(id, req.body, {
+      const result = await FaqModel.findByIdAndUpdate(id, req.body, {
         new: true,
       });
-      if (!result) return response.notFound(res, 'Category not found');
+      if (!result) return response.notFound(res, 'FAQ not found');
 
-      response.success(res, result, 'Success update category');
+      response.success(res, result, 'Success update faq');
     } catch (error) {
       const err = error as unknown as Error;
       response.error(res, error, err.message);
     }
   },
-  async deleteCategory(req: IReqUser, res: Response) {
+  async deleteFAQ(req: IReqUser, res: Response) {
     try {
       const { id } = req.params;
-      if (!isValidObjectId(id))
-        return response.notFound(res, 'Category not found');
+      if (!isValidObjectId(id)) return response.notFound(res, 'FAQ not found');
 
-      const result = await CategoryModel.findByIdAndDelete(id, { new: true });
-      if (!result) return response.notFound(res, 'Category not found');
+      const result = await FaqModel.findByIdAndDelete(id, { new: true });
+      if (!result) return response.notFound(res, 'FAQ not found');
 
-      response.success(res, result, 'Success delete category');
+      response.success(res, result, 'Success delete');
     } catch (error) {
       const err = error as unknown as Error;
       response.error(res, error, err.message);
