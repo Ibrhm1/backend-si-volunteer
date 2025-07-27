@@ -61,7 +61,32 @@ router.get(
     #swagger.security = [{ "bearerAuth": [] }]
   */
 );
-router.get('/auth/member/:id', authController.getUserById);
+router.get(
+  '/member',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  authController.getAllUser
+  /*
+    #swagger.tags = ['Auth']
+    #swagger.security = [{ "bearerAuth": [] }]
+    #swagger.parameters['limit'] = {
+      in: 'query',
+      type: 'number',
+      default: 10
+    }
+    #swagger.parameters['page'] = {
+      in: 'query',
+      type: 'number',
+      default: 1
+    }
+  */
+);
+router.get(
+  '/auth/member/:id',
+  authController.getUserById
+  /*
+    #swagger.tags = ['Auth']
+  */
+);
 router.put(
   '/auth/update-profile',
   authMiddleware,
@@ -185,7 +210,7 @@ router.put(
 );
 router.delete(
   '/organizer/:organizerId',
-  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
   authOrganizerController.deleteOrganizer
   /*
     #swagger.tags = ['Auth Organizer']
@@ -396,22 +421,64 @@ router.post(
   '/events/:eventId/volunteer',
   [authMiddleware, aclMiddleware([ROLES.MEMBER])],
   eventVolunteerController.createEventVolunteer
+  /**
+    #swagger.tags = ['Event Volunteers'],
+    #swagger.security = [{ "bearerAuth": {} }]
+    #swagger.parameters['eventId'] = { in: 'path', type: 'string' }
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: '#/components/schemas/CreateEventVolunteerRequest'}
+      },
+    }
+   */
 );
 router.get(
   '/event-volunteers',
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
   eventVolunteerController.getAllEventVolunteers
+  /*
+    #swagger.tags = ['Event Volunteers'],
+    #swagger.security = [{ "bearerAuth": {} }]
+    #swagger.parameters['limit'] = { in: 'query', type: 'number', default: 10 }
+    #swagger.parameters['page'] = { in: 'query', type: 'number', default: 1 }
+    #swagger.parameters['eventId'] = { in: 'query', type: 'string'}
+    #swagger.parameters['userId'] = { in: 'query', type: 'string'}
+  */
 );
-router.get('/event-volunteers/:eventId');
+router.get(
+  '/event-volunteers/:eventId',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
+  eventVolunteerController.getEventVolunteerByEvent
+  /*
+    #swagger.tags = ['Event Volunteers'],
+    #swagger.security = [{ "bearerAuth": {} }]
+    #swagger.parameters['eventId'] = { in: 'query', type: 'string' }
+  */
+);
 router.put(
   '/event-volunteer/:eventVolunteerId/status',
   [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
   eventVolunteerController.updateStatusEventVolunteer
+  /*
+    #swagger.tags = ['Event Volunteers'],
+    #swagger.security = [{ "bearerAuth": {} }]
+    #swagger.requestBody = {
+      required: true,
+      schema: {
+        $ref: '#/components/schemas/UpdateEventVolunteerRequest'}
+      },
+    }
+   */
 );
 router.delete(
   '/event-volunteers/:eventVolunteerId',
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
   eventVolunteerController.deleteEventVolunteer
+  /*
+    #swagger.tags = ['Event Volunteers'],
+    #swagger.security = [{ "bearerAuth": {} }]
+  */
 );
 
 //* router upload image

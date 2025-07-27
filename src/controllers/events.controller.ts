@@ -88,11 +88,25 @@ export default {
   async updateEvent(req: IReqUser, res: Response) {
     try {
       const { id } = req.params;
-
       if (!isValidObjectId(id))
         return response.notFound(res, 'Event not found');
 
-      const result = await EventModel.findByIdAndUpdate(id, req.body, {
+      const event = await EventModel.findById(id);
+
+      const payload: TypeEvent = {
+        ...req.body,
+        location: {
+          region: req.body.location?.region || event?.location?.region,
+          address: req.body.location?.address || event?.location?.address,
+        },
+      };
+
+      if (payload.name) {
+        const slug = payload.name.split(' ').join('-').toLowerCase();
+        payload.slug = slug;
+      }
+
+      const result = await EventModel.findByIdAndUpdate(id, payload, {
         new: true,
       });
       response.success(res, result, 'Success update event');

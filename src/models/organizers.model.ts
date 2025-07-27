@@ -33,10 +33,12 @@ export const organizerDTO = Yup.object({
   phone: Yup.string().required(),
   descriptionOrganizer: Yup.string(),
   dateEstablished: Yup.string().required(),
-  location: Yup.object({
-    domicile: Yup.string(),
-    address: Yup.string(),
-  }).required(),
+  location: Yup.object()
+    .shape({
+      domicile: Yup.string(),
+      address: Yup.string(),
+    })
+    .required(),
 });
 
 export const organizerLoginDTO = Yup.object({

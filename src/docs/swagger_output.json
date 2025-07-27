@@ -113,6 +113,65 @@
         ]
       }
     },
+    "/member": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "default": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "default": 1,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/member/{id}": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/auth/update-profile": {
       "put": {
         "tags": [
@@ -631,6 +690,13 @@
             }
           },
           {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "limit",
             "in": "query",
             "default": 10,
@@ -665,13 +731,6 @@
             "in": "query",
             "schema": {
               "type": "boolean"
-            }
-          },
-          {
-            "name": "category",
-            "in": "query",
-            "schema": {
-              "type": "string"
             }
           }
         ],
@@ -977,6 +1036,198 @@
         ]
       }
     },
+    "/events/{eventId}/volunteer": {
+      "post": {
+        "tags": [
+          "Event Volunteers"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEventVolunteerRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEventVolunteerRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event-volunteers": {
+      "get": {
+        "tags": [
+          "Event Volunteers"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "default": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "default": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "eventId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ]
+      }
+    },
+    "/event-volunteers/{eventId}": {
+      "get": {
+        "tags": [
+          "Event Volunteers"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ]
+      }
+    },
+    "/event-volunteer/{eventVolunteerId}/status": {
+      "put": {
+        "tags": [
+          "Event Volunteers"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "eventVolunteerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEventVolunteerRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEventVolunteerRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event-volunteers/{eventVolunteerId}": {
+      "delete": {
+        "tags": [
+          "Event Volunteers"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "eventVolunteerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ]
+      }
+    },
     "/image/upload-single": {
       "post": {
         "tags": [
@@ -1185,31 +1436,31 @@
         "properties": {
           "fullName": {
             "type": "string",
-            "example": "Iib Ibrahim"
+            "example": "Rizky Pratama"
           },
           "username": {
             "type": "string",
-            "example": "Ibrhm22"
+            "example": "rizkyprtm"
           },
           "email": {
             "type": "string",
-            "example": "ibrhm@gmail.com"
+            "example": "rizkypratama98@gmail.com"
           },
           "address": {
             "type": "string",
-            "example": "Jln Merderka 123"
+            "example": "Jl. Kalijudan No. 12, Surabaya"
           },
           "phone": {
             "type": "string",
-            "example": "123123"
+            "example": "081234567891"
           },
           "password": {
             "type": "string",
-            "example": "Ibrhm123"
+            "example": "Member1"
           },
           "confirmPassword": {
             "type": "string",
-            "example": "Ibrhm123"
+            "example": "Member1"
           }
         },
         "xml": {
@@ -1221,11 +1472,11 @@
         "properties": {
           "identifier": {
             "type": "string",
-            "example": "Ibrhm22"
+            "example": "rizkyprtm"
           },
           "password": {
             "type": "string",
-            "example": "Ibrhm123"
+            "example": "Member1"
           }
         },
         "xml": {
@@ -1249,19 +1500,19 @@
         "properties": {
           "fullName": {
             "type": "string",
-            "example": "Iib Ibrahim Update"
+            "example": "Update Full Name"
           },
           "phone": {
             "type": "string",
-            "example": "123123"
+            "example": "Update Phone Number"
           },
           "address": {
             "type": "string",
-            "example": "Jln Merderka 123"
+            "example": "Update Address"
           },
           "profilePicture": {
             "type": "string",
-            "example": "Update-profile.png"
+            "example": "file url"
           }
         },
         "xml": {
@@ -1273,15 +1524,15 @@
         "properties": {
           "oldPassword": {
             "type": "string",
-            "example": "Ibrhm123"
+            "example": "Member1"
           },
           "password": {
             "type": "string",
-            "example": "Ibrhm1234"
+            "example": "Member123"
           },
           "confirmPassword": {
             "type": "string",
-            "example": "Ibrhm1234"
+            "example": "Member123"
           }
         },
         "xml": {
@@ -1293,46 +1544,46 @@
         "properties": {
           "organizerName": {
             "type": "string",
-            "example": "Organizer Name"
+            "example": "Yayasan Anti Senggol"
           },
           "email": {
             "type": "string",
-            "example": "emailOrganizer@gmail.com"
+            "example": "yysnSenggol22@gmail.com"
           },
           "password": {
             "type": "string",
-            "example": "Organizer123"
+            "example": "Organizer2025"
           },
           "confirmPassword": {
             "type": "string",
-            "example": "Organizer123"
+            "example": "Organizer2025"
           },
           "contactPerson": {
             "type": "string",
-            "example": "John Doe"
+            "example": "Iib Ibrahim"
           },
           "descriptionOrganizer": {
             "type": "string",
-            "example": "Organizer Description"
+            "example": "Lembaga non-profit yang berfokus pada kegiatan sosial, kemanusiaan, dan pemberdayaan masyarakat."
           },
           "dateEstablished": {
             "type": "string",
-            "example": "YYYY-MM-DD"
+            "example": "2025-01-22"
           },
           "phone": {
             "type": "string",
-            "example": "0812345678"
+            "example": "08123456789"
           },
           "location": {
             "type": "object",
             "properties": {
               "domicile": {
-                "type": "string",
-                "example": "Region Id"
+                "type": "number",
+                "example": 3216
               },
               "address": {
                 "type": "string",
-                "example": "Jln. Mangga 2"
+                "example": "Ujung Harapan"
               }
             }
           }
@@ -1346,11 +1597,11 @@
         "properties": {
           "identifier": {
             "type": "string",
-            "example": "emailOrganizer@gmail.com / Organizer Name"
+            "example": "yysnSenggol22@gmail.com"
           },
           "password": {
             "type": "string",
-            "example": "Organizer123"
+            "example": "Organizer2025"
           }
         },
         "xml": {
@@ -1374,11 +1625,11 @@
         "properties": {
           "organizerName": {
             "type": "string",
-            "example": "Organizer Update 2"
+            "example": "Update Name Organizer"
           },
           "contactPerson": {
             "type": "string",
-            "example": "John Doe"
+            "example": "Update Contact Person"
           },
           "phone": {
             "type": "string",
@@ -1386,7 +1637,7 @@
           },
           "descriptionOrganizer": {
             "type": "string",
-            "example": "ini update deskripsi"
+            "example": "Update Description Organizer"
           },
           "dateEstablished": {
             "type": "string",
@@ -1397,17 +1648,17 @@
             "properties": {
               "domicile": {
                 "type": "string",
-                "example": "asdqw"
+                "example": "3216"
               },
               "address": {
                 "type": "string",
-                "example": "asd"
+                "example": "Update Address"
               }
             }
           },
           "logo": {
             "type": "string",
-            "example": "update.png"
+            "example": "file url"
           }
         },
         "xml": {
@@ -1419,15 +1670,15 @@
         "properties": {
           "oldPassword": {
             "type": "string",
-            "example": "Admin123"
+            "example": "Organizer2025"
           },
           "password": {
             "type": "string",
-            "example": "Organizer2"
+            "example": "Organizer123"
           },
           "confirmPassword": {
             "type": "string",
-            "example": "Organizer2"
+            "example": "Organizer123"
           }
         },
         "xml": {
@@ -1439,31 +1690,19 @@
         "properties": {
           "name": {
             "type": "string",
-            "example": "Category Name"
+            "example": "Kesehatan"
           },
           "description": {
             "type": "string",
-            "example": "Category Description"
+            "example": "Kategori untuk kegiatan kesehatan masyarakat seperti donor darah, penyuluhan, dan bantuan medis."
           },
           "image": {
             "type": "string",
-            "example": "File Url"
+            "example": "file url"
           }
         },
         "xml": {
           "name": "CreateCategoryRequest"
-        }
-      },
-      "DeleteFileRequest": {
-        "type": "object",
-        "properties": {
-          "fileUrl": {
-            "type": "string",
-            "example": "File Url"
-          }
-        },
-        "xml": {
-          "name": "DeleteFileRequest"
         }
       },
       "CreateEventRequest": {
@@ -1522,10 +1761,6 @@
             "type": "number",
             "example": 50
           },
-          "currentVolunteers": {
-            "type": "number",
-            "example": 10
-          },
           "requirements": {
             "type": "string",
             "example": "Sehat jasmani, membawa alat kebersihan sendiri (sarung tangan, karung, dll.), dan tidak takut kotor."
@@ -1556,15 +1791,15 @@
         "properties": {
           "question": {
             "type": "string",
-            "example": "Bagaimana cara mendaftar sebagai relawan?"
+            "example": "Bisakah saya melihat data relawan yang sudah mendaftar?"
           },
           "answer": {
             "type": "string",
-            "example": "Kepo"
+            "example": "Ya, sebagai organizer Anda bisa melihat daftar relawan dari dashboard event yang Anda kelola."
           },
           "type": {
             "type": "string",
-            "example": "member"
+            "example": "organizer | member"
           },
           "isPublish": {
             "type": "boolean",
@@ -1573,6 +1808,59 @@
         },
         "xml": {
           "name": "CreateFAQRequest"
+        }
+      },
+      "CreateEventVolunteerRequest": {
+        "type": "object",
+        "properties": {
+          "motivation": {
+            "type": "string",
+            "example": "Saya ingin berkontribusi di kegiatan sosial karena merasa terpanggil untuk membantu sesama."
+          },
+          "experience": {
+            "type": "string",
+            "example": "Pernah menjadi fasilitator dalam acara donasi buku ke pelosok."
+          },
+          "skills": {
+            "type": "array",
+            "example": [
+              "Public Speaking"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "portfolioUrl": {
+            "type": "string",
+            "example": "https://drive.google.com/your-portfolio-folder"
+          }
+        },
+        "xml": {
+          "name": "CreateEventVolunteerRequest"
+        }
+      },
+      "UpdateEventVolunteerRequest": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "pending | accepted | rejected"
+          }
+        },
+        "xml": {
+          "name": "UpdateEventVolunteerRequest"
+        }
+      },
+      "DeleteFileRequest": {
+        "type": "object",
+        "properties": {
+          "fileUrl": {
+            "type": "string",
+            "example": "File Url"
+          }
+        },
+        "xml": {
+          "name": "DeleteFileRequest"
         }
       }
     }

@@ -31,47 +31,52 @@ export interface IEventVolunteer
   userId: ObjectId;
 }
 
-const eventVolunteerSchema = new Schema<IEventVolunteer>({
-  eventId: {
-    type: Schema.Types.ObjectId,
-    ref: EVENT_MODEL_NAME,
-    required: true,
+const eventVolunteerSchema = new Schema<IEventVolunteer>(
+  {
+    eventId: {
+      type: Schema.Types.ObjectId,
+      ref: EVENT_MODEL_NAME,
+      required: true,
+    },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: USER_MODEL_NAME,
+      required: true,
+    },
+    status: {
+      type: Schema.Types.String,
+      enum: [STATUS.PENDING, STATUS.ACCEPTED, STATUS.REJECTED],
+      default: STATUS.PENDING,
+    },
+    motivation: {
+      type: Schema.Types.String,
+      required: true,
+    },
+    experience: {
+      type: Schema.Types.String,
+      required: false,
+    },
+    skills: {
+      type: [Schema.Types.String],
+      required: true,
+    },
+    portfolioUrl: {
+      type: Schema.Types.String,
+      required: false,
+    },
+    registeredAt: {
+      type: Schema.Types.String,
+      required: false,
+    },
+    isVerified: {
+      type: Schema.Types.Boolean,
+      default: false,
+    },
   },
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: USER_MODEL_NAME,
-    required: true,
-  },
-  status: {
-    type: Schema.Types.String,
-    enum: [STATUS.PENDING, STATUS.ACCEPTED, STATUS.REJECTED],
-    default: STATUS.PENDING,
-  },
-  motivation: {
-    type: Schema.Types.String,
-    required: true,
-  },
-  experience: {
-    type: Schema.Types.String,
-    required: false,
-  },
-  skills: {
-    type: [Schema.Types.String],
-    required: true,
-  },
-  portfolioUrl: {
-    type: Schema.Types.String,
-    required: false,
-  },
-  registeredAt: {
-    type: Schema.Types.String,
-    required: false,
-  },
-  isVerified: {
-    type: Schema.Types.Boolean,
-    default: false,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const EventVolunteerModel = mongoose.model(
   EVENTVOLUNTEER_MODEL_NAME,

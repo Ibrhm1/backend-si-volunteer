@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { IPaginationQuery, IReqUser } from '../utils/interfaces';
+import { IReqUser } from '../utils/interfaces';
 import response from '../utils/response';
 import EventVolunteerModel, {
   eventVolunteerDAO,
@@ -7,8 +7,6 @@ import EventVolunteerModel, {
 } from '../models/eventVolunteer.model';
 import { FilterQuery, isValidObjectId } from 'mongoose';
 import EventModel from '../models/events.model';
-import { create } from 'ts-node';
-import { DateSchema } from 'yup';
 
 export default {
   async createEventVolunteer(req: IReqUser, res: Response) {
@@ -86,6 +84,21 @@ export default {
         },
         'Success get eventVolunteers'
       );
+    } catch (error) {
+      const err = error as unknown as Error;
+      response.error(res, error, err.message);
+    }
+  },
+  async getEventVolunteerByEvent(req: IReqUser, res: Response) {
+    try {
+      const { eventId } = req.params;
+      if (!isValidObjectId(eventId))
+        return response.notFound(res, 'Id is not valid');
+
+      const result = await EventVolunteerModel.find({ eventId });
+      if (!result) return response.notFound(res, 'Event Volunteer not found');
+
+      response.success(res, result, 'Success get eventVolunteer');
     } catch (error) {
       const err = error as unknown as Error;
       response.error(res, error, err.message);

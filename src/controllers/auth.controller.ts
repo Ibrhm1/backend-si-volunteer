@@ -7,7 +7,7 @@ import UserModel, {
 } from '../models/user.model';
 import { encrypt } from '../utils/encryption';
 import { generateToken } from '../utils/jwt';
-import { IReqUser } from '../utils/interfaces';
+import { IPaginationQuery, IReqUser } from '../utils/interfaces';
 import response from '../utils/response';
 import { isValidObjectId } from 'mongoose';
 
@@ -65,7 +65,7 @@ export default {
         active: true,
       });
       if (!userByIdentifier)
-        return response.unauthorized(res, 'User not found');
+        return response.unauthorized(res, 'User is not active');
 
       const validatePassword: boolean =
         encrypt(password) === userByIdentifier.password;
@@ -88,7 +88,34 @@ export default {
     try {
       const user = req.user;
       const result = await UserModel.findById(user?.id);
+      if (!result) return response.notFound(res, 'User not found');
       response.success(res, result, 'Success get user profile');
+    } catch (error) {
+      const err = error as unknown as Error;
+      response.error(res, error, err.message);
+    }
+  },
+  async getAllUser(req: IReqUser, res: Response) {
+    try {
+      const { limit = 10, page = 1 } = req.query as unknown as IPaginationQuery;
+
+      const result = await UserModel.find({ role: 'member' })
+        .limit(limit)
+        .skip((page - 1) * limit)
+        .sort({ createdAt: -1 })
+        .exec();
+
+      const count = await UserModel.countDocuments({ role: 'member' });
+      response.pagination(
+        res,
+        result,
+        {
+          current: page,
+          total: count,
+          totalPages: Math.ceil(count / limit),
+        },
+        'Success get users'
+      );
     } catch (error) {
       const err = error as unknown as Error;
       response.error(res, error, err.message);

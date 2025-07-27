@@ -22,6 +22,7 @@ export default {
       dateEstablished,
       descriptionOrganizer,
       location,
+      logo,
     } = req.body;
 
     try {
@@ -35,6 +36,7 @@ export default {
         descriptionOrganizer,
         dateEstablished,
         location,
+        logo,
       });
 
       const organizer = await OrganizerModel.create({
@@ -46,6 +48,7 @@ export default {
         descriptionOrganizer,
         dateEstablished,
         location,
+        logo,
       });
 
       response.success(res, organizer, 'Success registration');
@@ -136,22 +139,21 @@ export default {
         dateEstablished,
         logo,
         location,
-        domicile,
-        address,
       } = req.body;
+
+      const payload = {
+        organizerName,
+        contactPerson,
+        phone,
+        descriptionOrganizer,
+        dateEstablished,
+        logo,
+        'location.domicile': location?.domicile,
+        'location.address': location?.address,
+      };
       const result = await OrganizerModel.findByIdAndUpdate(
         organizerId,
-        {
-          organizerName,
-          contactPerson,
-          phone,
-          descriptionOrganizer,
-          dateEstablished,
-          logo,
-          location,
-          domicile,
-          address,
-        },
+        { $set: payload },
         { new: true }
       );
       if (!result) return response.notFound(res, 'Organizer not found');
