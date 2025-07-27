@@ -453,7 +453,7 @@ router.get(
   /*
     #swagger.tags = ['Event Volunteers'],
     #swagger.security = [{ "bearerAuth": {} }]
-    #swagger.parameters['eventId'] = { in: 'query', type: 'string' }
+    #swagger.parameters['eventId'] = { in: 'path', type: 'string' }
   */
 );
 router.put(

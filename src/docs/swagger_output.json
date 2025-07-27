@@ -1138,7 +1138,7 @@
         "parameters": [
           {
             "name": "eventId",
-            "in": "query",
+            "in": "path",
             "required": true,
             "schema": {
               "type": "string"
