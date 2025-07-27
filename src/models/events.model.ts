@@ -2,6 +2,7 @@ import mongoose, { ObjectId } from 'mongoose';
 import * as Yup from 'yup';
 import { ORGANIZER_MODEL_NAME } from './organizers.model';
 import { CATEGORY_MODEL_NAME } from './categories.model';
+import { USER_MODEL_NAME } from './user.model';
 
 export const EVENT_MODEL_NAME = 'Event';
 const Schema = mongoose.Schema;
@@ -27,7 +28,7 @@ export const EventDAO = Yup.object({
   requiredVolunteers: Yup.number()
     .required('The number of volunteers needed must be filled in')
     .min(1, 'Minimum number of volunteers is 1'),
-  currentVolunteers: Yup.number(),
+  currentVolunteers: Yup.string(),
   requirements: Yup.string().required('Requirements are required'),
   benefits: Yup.string(),
   tags: Yup.array().of(Yup.string().max(30)).optional(),
@@ -39,9 +40,11 @@ export const EventDAO = Yup.object({
 
 export type TypeEvent = Yup.InferType<typeof EventDAO>;
 
-export interface IEvent extends Omit<TypeEvent, 'category' | 'createdBy'> {
+export interface IEvent
+  extends Omit<TypeEvent, 'category' | 'createdBy' | 'currentVolunteers'> {
   category: ObjectId;
   createdBy: ObjectId;
+  currentVolunteers: ObjectId;
 }
 
 const EventSchema = new Schema<IEvent>(
@@ -97,9 +100,12 @@ const EventSchema = new Schema<IEvent>(
       type: Schema.Types.Number,
       reuired: true,
     },
-    currentVolunteers: {
-      type: Schema.Types.Number,
-    },
+    currentVolunteers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: USER_MODEL_NAME,
+      },
+    ],
     requirements: {
       type: Schema.Types.String,
       required: true,

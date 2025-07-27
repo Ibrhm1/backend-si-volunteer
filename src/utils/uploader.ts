@@ -31,7 +31,6 @@ const getPublicIdFromFileUrl = (fileUrl: string) => {
 export default {
   async uploadSingle(file: Express.Multer.File) {
     const fileDataUrl = toDataUrl(file);
-
     const result = await cloudinary.uploader.upload(fileDataUrl, {
       resource_type: 'auto',
     });

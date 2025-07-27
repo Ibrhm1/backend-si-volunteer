@@ -75,6 +75,15 @@ export default {
       data: null,
     });
   },
+  conflict(res: Response, message: string = 'conflict') {
+    res.status(409).json({
+      meta: {
+        status: 409,
+        message,
+      },
+      data: null,
+    });
+  },
   pagination(
     res: Response,
     data: any[],

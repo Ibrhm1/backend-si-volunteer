@@ -9,6 +9,7 @@ import { encrypt } from '../utils/encryption';
 import { generateToken } from '../utils/jwt';
 import { IReqUser } from '../utils/interfaces';
 import response from '../utils/response';
+import { isValidObjectId } from 'mongoose';
 
 export default {
   async register(req: Request, res: Response) {
@@ -93,7 +94,19 @@ export default {
       response.error(res, error, err.message);
     }
   },
+  async getUserById(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      if (!isValidObjectId(id)) return response.notFound(res, 'User not found');
 
+      const result = await UserModel.findById(id);
+      if (!result) return response.error(res, result, 'User not found');
+      response.success(res, result, 'Success get user by id');
+    } catch (error) {
+      const err = error as unknown as Error;
+      response.error(res, error, err.message);
+    }
+  },
   async activation(req: Request, res: Response) {
     try {
       const { code } = req.body as { code: string };

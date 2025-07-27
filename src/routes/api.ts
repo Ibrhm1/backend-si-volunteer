@@ -10,6 +10,7 @@ import imageController from '../controllers/image.controller';
 import regionController from '../controllers/region.controller';
 import eventsController from '../controllers/events.controller';
 import faqController from '../controllers/faq.controller';
+import eventVolunteerController from '../controllers/eventVolunteer.controller';
 
 const router = express.Router();
 
@@ -60,6 +61,7 @@ router.get(
     #swagger.security = [{ "bearerAuth": [] }]
   */
 );
+router.get('/auth/member/:id', authController.getUserById);
 router.put(
   '/auth/update-profile',
   authMiddleware,
@@ -278,12 +280,13 @@ router.get(
   eventsController.getAllEvents
   /*
     #swagger.tags = ['Events']
+    #swagger.parameters['category'] = { in: 'query', type: 'string' }
     #swagger.parameters['limit'] = { in: 'query', type: 'number', default: 10 }
     #swagger.parameters['page'] = { in: 'query', type: 'number', default: 1 }
-    #swagger.parameters['category'] = { in: 'query', type: 'string' }
     #swagger.parameters['isOnline'] = { in: 'query', type: 'boolean' }
     #swagger.parameters['isPublish'] = { in: 'query', type: 'boolean' }
-  */
+    #swagger.parameters['isFeatured'] = { in: 'query', type: 'boolean' }
+    */
 );
 router.get(
   '/events/:id',
@@ -295,6 +298,13 @@ router.get(
 router.get(
   '/events/:slug/slug',
   eventsController.getEventBySlug
+  /*
+    #swagger.tags = ['Events'],
+  */
+);
+router.get(
+  '/events/:organizerId/organizer',
+  eventsController.getEventByOrganizer
   /*
     #swagger.tags = ['Events'],
   */
@@ -379,6 +389,29 @@ router.delete(
     #swagger.tags = ['Frequently Asked Questions'],
     #swagger.security = [{ "bearerAuth": {} }]
   */
+);
+
+//* event volunteer
+router.post(
+  '/events/:eventId/volunteer',
+  [authMiddleware, aclMiddleware([ROLES.MEMBER])],
+  eventVolunteerController.createEventVolunteer
+);
+router.get(
+  '/event-volunteers',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  eventVolunteerController.getAllEventVolunteers
+);
+router.get('/event-volunteers/:eventId');
+router.put(
+  '/event-volunteer/:eventVolunteerId/status',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
+  eventVolunteerController.updateStatusEventVolunteer
+);
+router.delete(
+  '/event-volunteers/:eventVolunteerId',
+  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  eventVolunteerController.deleteEventVolunteer
 );
 
 //* router upload image

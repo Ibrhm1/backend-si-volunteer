@@ -22,11 +22,11 @@ export default {
     try {
       const buildQuery = (filter: any) => {
         let query: FilterQuery<TypeEvent> = {};
-
         if (filter.search) query.$text = { $search: filter.search };
         if (filter.category) query.category = filter.category;
         if (filter.isOnline) query.isOnline = filter.isOnline;
         if (filter.isPublish) query.isPublish = filter.isPublish;
+        if (filter.isFeatured) query.isFeatured = filter.isFeatured;
         return query;
       };
 
@@ -34,9 +34,10 @@ export default {
         limit = 10,
         page = 1,
         search,
+        category,
         isOnline,
         isPublish,
-        category,
+        isFeatured,
       } = req.query;
 
       const query = buildQuery({
@@ -44,6 +45,7 @@ export default {
         category,
         isOnline,
         isPublish,
+        isFeatured,
       });
 
       const result = await EventModel.find(query)
@@ -123,6 +125,19 @@ export default {
       response.success(res, result, 'Success get event by slug');
     } catch (error) {
       response.error(res, error, 'Failed get event by slug');
+    }
+  },
+  async getEventByOrganizer(req: IReqUser, res: Response) {
+    try {
+      const { organizerId } = req.params;
+      if (!isValidObjectId(organizerId))
+        return response.notFound(res, 'Organizer not found');
+
+      const result = await EventModel.find({ createdBy: organizerId });
+      response.success(res, result, 'Success get event by organizer');
+    } catch (error) {
+      const err = error as unknown as Error;
+      response.error(res, error, err.message);
     }
   },
 };
