@@ -2,121 +2,152 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>siVolunteer Registration</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Aktivasi Akun siVolunteer</title>
   </head>
-  <style>
-    /* Reset & base */
-    * {
+  <body
+    style="
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
+      background-color: #f6f8fb;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+        Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+    "
+  >
+    <table
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      style="background-color: #f6f8fb; padding: 40px 0"
+    >
+      <tr>
+        <td align="center">
+          <table
+            width="600"
+            cellpadding="0"
+            cellspacing="0"
+            style="
+              background-color: #ffffff;
+              border-radius: 12px;
+              overflow: hidden;
+              box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            "
+          >
+            <!-- Header -->
+            <tr>
+              <td
+                style="
+                  background-color: #0d6efd;
+                  padding: 30px 0;
+                  text-align: center;
+                "
+              >
+                <h1 style="margin: 0; color: #ffffff; font-size: 24px">
+                  🎉 Selamat Datang di
+                  <span style="color: #ffe600">siVolunteer</span>
+                </h1>
+              </td>
+            </tr>
 
-    body {
-      background-color: #f0f2f5;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: center;
-      padding: 40px 20px;
-    }
+            <!-- Body -->
+            <tr>
+              <td style="padding: 40px 50px; color: #333">
+                <p
+                  style="font-size: 18px; font-weight: 600; margin-bottom: 20px"
+                >
+                  Hai <%= username %>,
+                </p>
 
-    /* Card layout */
-    .registration-card {
-      background-color: #fff;
-      max-width: 700px;
-      width: 100%;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
+                <p style="margin-bottom: 20px">
+                  Terima kasih telah bergabung bersama kami di
+                  <strong>siVolunteer</strong>. Kamu telah mengambil langkah
+                  pertama untuk menjadi bagian dari gerakan positif 💪.
+                </p>
 
-    /* Header */
-    .header {
-      background-color: #222;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
+                <table
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  style="
+                    background-color: #f0f4ff;
+                    border-radius: 10px;
+                    padding: 20px;
+                    margin: 20px 0;
+                  "
+                >
+                  <tr>
+                    <td style="padding: 20px">
+                      <p style="margin: 0 0 8px">
+                        <strong>📄 Informasi Pendaftaran:</strong>
+                      </p>
+                      <p style="margin: 0">
+                        <strong>Nama:</strong> <%= fullName %>
+                      </p>
+                      <p style="margin: 0">
+                        <strong>Email:</strong> <%= email %>
+                      </p>
+                      <p style="margin: 0">
+                        <strong>Tanggal Daftar:</strong> <%= createdAt %>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
 
-    .header h1 {
-      font-size: 1.8rem;
-    }
+                <p style="margin: 30px 0 20px">
+                  Untuk melanjutkan, silakan klik tombol di bawah ini untuk
+                  aktivasi akun Anda:
+                </p>
 
-    /* Content */
-    .content {
-      padding: 25px 30px;
-      color: #333;
-    }
+                <div style="text-align: center; margin-bottom: 40px">
+                  <a
+                    href="<%= activationLink %>"
+                    style="
+                      display: inline-block;
+                      padding: 14px 28px;
+                      background-color: #0d6efd;
+                      color: #ffffff;
+                      font-weight: 600;
+                      font-size: 16px;
+                      text-decoration: none;
+                      border-radius: 8px;
+                      transition: all 0.3s ease;
+                    "
+                  >
+                    🚀 Aktifkan Akun Sekarang
+                  </a>
+                </div>
 
-    .greeting {
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
+                <p style="font-size: 14px; color: #666">
+                  Jika kamu tidak merasa mendaftar, kamu bisa mengabaikan email
+                  ini.
+                </p>
+                <p style="margin-top: 30px">
+                  Salam hangat,<br /><strong>Tim siVolunteer</strong>
+                </p>
+              </td>
+            </tr>
 
-    .info-list {
-      list-style: none;
-      padding-left: 0;
-      margin: 15px 0 25px;
-    }
-
-    /* Button */
-    .btn {
-      display: inline-block;
-      padding: 5px 15px;
-      background-color: #0d6efd;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      transition: background-color 0.3s ease;
-      margin: 20px 0;
-    }
-
-    .btn:hover {
-      background-color: #084dcb;
-    }
-
-    /* Footer */
-    .footer {
-      background-color: #555;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      font-size: 0.9rem;
-    }
-
-    .thanks {
-      margin-top: 10px;
-    }
-  </style>
-  <body>
-    <div class="registration-card">
-      <div class="header">
-        <h1>Wellcome</h1>
-      </div>
-      <div class="content">
-        <p class="greeting">Hai, <%= username %>,</p>
-        <p>
-          Terima kasih telah mendaftar di <strong>siVolunteer</strong>. Berikut
-          adalah informasi akun Anda:
-        </p>
-        <ul class="info-list">
-          <li><strong>Nama:</strong> <%= fullName %></li>
-          <li><strong>Email:</strong> <%= email %></li>
-          <li><strong>Tanggal Pendaftaran:</strong> <%= createdAt %></li>
-        </ul>
-        <p>Silakan klik tombol di bawah ini untuk aktivasi akun Anda:</p>
-        <a href="<%= activationLink %>" class="btn">Aktivasi</a>
-        <p>
-          Jika Anda memiliki pertanyaan, silakan hubungi kami melalui email.
-        </p>
-        <p class="thanks">Terima kasih.</p>
-      </div>
-      <div class="footer">
-        <p>&copy; 2025 siVolunteer | All rights reserved.</p>
-      </div>
-    </div>
+            <!-- Footer -->
+            <tr>
+              <td
+                style="
+                  background-color: #f8f9fa;
+                  text-align: center;
+                  padding: 20px;
+                  font-size: 13px;
+                  color: #999;
+                "
+              >
+                &copy; 2025 siVolunteer • All rights reserved<br />
+                <span style="color: #bbb"
+                  >Email ini dikirim otomatis, mohon tidak membalas
+                  langsung.</span
+                >
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
