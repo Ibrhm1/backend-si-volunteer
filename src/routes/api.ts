@@ -16,17 +16,6 @@ const router = express.Router();
 
 //* routes auth
 router.post(
-  '/auth/register',
-  authController.register
-  /*
-    #swagger.tags = ['Auth']
-    #swagger.requestBody = {
-      required: true,
-      schema: {$ref: '#/components/schemas/RegisterRequest'}
-    }
-  */
-);
-router.post(
   '/auth/login',
   authController.login
   /*
@@ -61,12 +50,25 @@ router.get(
     #swagger.security = [{ "bearerAuth": [] }]
   */
 );
+
+//* router user
+router.post(
+  '/auth/register',
+  authController.register
+  /*
+    #swagger.tags = ['Users']
+    #swagger.requestBody = {
+      required: true,
+      schema: {$ref: '#/components/schemas/RegisterRequest'}
+    }
+  */
+);
 router.get(
   '/member',
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
   authController.getAllUser
   /*
-    #swagger.tags = ['Auth']
+    #swagger.tags = ['Users']
     #swagger.security = [{ "bearerAuth": [] }]
     #swagger.parameters['limit'] = {
       in: 'query',
@@ -84,7 +86,7 @@ router.get(
   '/auth/member/:id',
   authController.getUserById
   /*
-    #swagger.tags = ['Auth']
+    #swagger.tags = ['Users']
   */
 );
 router.put(
@@ -92,7 +94,7 @@ router.put(
   authMiddleware,
   authController.updateProfile
   /*
-  #swagger.tags = ['Auth']
+  #swagger.tags = ['Users']
   #swagger.security = [{ "bearerAuth": [] }]
   #swagger.requestBody = {
     required: true,
@@ -105,7 +107,7 @@ router.put(
   authMiddleware,
   authController.updatePassword
   /*
-  #swagger.tags = ['Auth']
+  #swagger.tags = ['Users']
   #swagger.security = [{ "bearerAuth": [] }]
   #swagger.requestBody = {
     required: true,
@@ -119,57 +121,18 @@ router.post(
   '/auth/register/organizer',
   authOrganizerController.registerOrganizer
   /*
-    #swagger.tags = ['Auth Organizer']
+    #swagger.tags = ['Organizer']
     #swagger.requestBody = {
       required: true,
       schema: {$ref: '#/components/schemas/RegisterOrganizerRequest'}
     }
   */
 );
-router.post(
-  '/auth/login/organizer',
-  authOrganizerController.loginOrganizer
-  /*
-    #swagger.tags = ['Auth Organizer']
-    #swagger.requestBody = {
-      required: true,
-      content: {
-        "application/json": {
-          schema: { $ref: '#/components/schemas/LoginOrganizerRequest' }
-        }
-      }
-    }
-  */
-);
-router.post(
-  '/auth/activation/organizer',
-  authOrganizerController.activationOrganizer
-  /*
-    #swagger.tags = ['Auth Organizer']
-    #swagger.requestBody = {
-      required: true,
-      content: {
-        "application/json": {
-          schema: { $ref: '#/components/schemas/ActivationOrganizerRequest' }
-        }
-      }
-    }
-    */
-);
-router.get(
-  '/auth/getOrganizer',
-  authMiddleware,
-  authOrganizerController.getOrganizer
-  /*
-    #swagger.tags = ['Auth Organizer']
-    #swagger.security = [{ "bearerAuth": [] }]
-    */
-);
 router.get(
   '/organizers',
   authOrganizerController.getAllOrganizers
   /*
-    #swagger.tags = ['Auth Organizer']
+    #swagger.tags = ['Organizer']
     #swagger.parameters['limit'] = { in: 'query', type: 'number', default: 10 }
     #swagger.parameters['page'] = { in: 'query', type: 'number', default: 1 }
    */
@@ -178,7 +141,7 @@ router.get(
   '/organizers/:organizerId',
   authOrganizerController.getOrganizerById
   /*
-  #swagger.tags = ['Auth Organizer']
+  #swagger.tags = ['Organizer']
   #swagger.parameters['organizerId'] = { in: 'path', type: 'string' }
   */
 );
@@ -187,7 +150,7 @@ router.put(
   [authMiddleware, aclMiddleware([ROLES.ORGANIZER])],
   authOrganizerController.updateProfileOrganizer
   /*
-  #swagger.tags = ['Auth Organizer']
+  #swagger.tags = ['Organizer']
   #swagger.security = [{ "bearerAuth": [] }]
   #swagger.requestBody = {
     required: true,
@@ -200,7 +163,7 @@ router.put(
   authMiddleware,
   authOrganizerController.updatePasswordOrganizer
   /*
-  #swagger.tags = ['Auth Organizer']
+  #swagger.tags = ['Organizer']
   #swagger.security = [{ "bearerAuth": [] }]
   #swagger.requestBody = {
     required: true,
@@ -213,7 +176,7 @@ router.delete(
   [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
   authOrganizerController.deleteOrganizer
   /*
-    #swagger.tags = ['Auth Organizer']
+    #swagger.tags = ['Organizer']
     #swagger.security = [{ "bearerAuth": [] }]
     #swagger.parameters['organizerId'] = { in: 'path', type: 'string' }
   */

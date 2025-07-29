@@ -10,6 +10,7 @@ import { generateToken } from '../utils/jwt';
 import { IPaginationQuery, IReqUser } from '../utils/interfaces';
 import response from '../utils/response';
 import { isValidObjectId } from 'mongoose';
+import OrganizerModel from '../models/organizers.model';
 
 export default {
   async register(req: Request, res: Response) {
@@ -53,43 +54,62 @@ export default {
     try {
       const { identifier, password } = req.body;
       await userLoginDTO.validate({ identifier, password });
-      const userByIdentifier = await UserModel.findOne({
-        $or: [
-          {
-            email: identifier,
-          },
-          {
-            username: identifier,
-          },
-        ],
+
+      const user = await UserModel.findOne({
+        $or: [{ email: identifier }, { username: identifier }],
         active: true,
       });
-      if (!userByIdentifier)
-        return response.unauthorized(res, 'User is not active');
 
-      const validatePassword: boolean =
-        encrypt(password) === userByIdentifier.password;
-      if (!validatePassword)
+      if (user) {
+        const isPasswordValid = encrypt(password) === user.password;
+        if (!isPasswordValid)
+          return response.unauthorized(res, 'Invalid password');
+
+        const token = generateToken({
+          id: user._id,
+          role: user.role,
+        });
+        return response.success(res, token, 'Success login as user!');
+      }
+
+      const organizer = await OrganizerModel.findOne({
+        $or: [{ email: identifier }, { organizerName: identifier }],
+        active: true,
+      });
+      if (!organizer) {
+        return response.notFound(res, 'Account not found');
+      }
+
+      const isPasswordValid = encrypt(password) === organizer.password;
+      if (!isPasswordValid)
         return response.unauthorized(res, 'Invalid password');
 
       const token = generateToken({
-        id: userByIdentifier._id,
-        role: userByIdentifier.role,
+        id: organizer._id,
+        role: organizer.role,
       });
 
-      response.success(res, token, 'Success login!');
+      return response.success(res, token, 'Success login as organizer!');
     } catch (error) {
-      const err = error as unknown as Error;
-      response.error(res, error, err.message);
+      const err = error as Error;
+      return response.error(res, error, err.message);
     }
   },
 
   async getProfile(req: IReqUser, res: Response) {
     try {
       const user = req.user;
-      const result = await UserModel.findById(user?.id);
-      if (!result) return response.notFound(res, 'User not found');
-      response.success(res, result, 'Success get user profile');
+      if (user?.role === 'member') {
+        const result = await UserModel.findById(user.id);
+        if (!result) return response.notFound(res, 'User not found');
+        response.success(res, result, 'Success get profile user');
+      }
+
+      if (user?.role === 'organizer') {
+        const result = await OrganizerModel.findById(user.id);
+        if (!result) return response.notFound(res, 'Organizer not found');
+        response.success(res, result, 'Success get profile organizer');
+      }
     } catch (error) {
       const err = error as unknown as Error;
       response.error(res, error, err.message);
@@ -148,10 +168,28 @@ export default {
           new: true,
         }
       );
+      if (user)
+        return response.success(
+          res,
+          user,
+          'User account activated successfully'
+        );
 
-      if (!user) return response.notFound(res, 'User not found');
+      const organizer = await OrganizerModel.findOneAndUpdate(
+        {
+          activationCode: code,
+        },
+        { active: true },
+        { new: true }
+      );
+      if (organizer)
+        return response.success(
+          res,
+          organizer,
+          'Organizer account activated successfully'
+        );
 
-      response.success(res, user, 'Success activation');
+      return response.notFound(res, 'Activation code not found');
     } catch (error) {
       const err = error as unknown as Error;
       response.error(res, error, err.message);

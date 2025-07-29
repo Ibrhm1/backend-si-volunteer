@@ -16,34 +16,6 @@
     }
   ],
   "paths": {
-    "/auth/register": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterRequest"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterRequest"
-              }
-            }
-          }
-        }
-      }
-    },
     "/auth/login": {
       "post": {
         "tags": [
@@ -113,10 +85,38 @@
         ]
       }
     },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          }
+        }
+      }
+    },
     "/member": {
       "get": {
         "tags": [
-          "Auth"
+          "Users"
         ],
         "description": "",
         "parameters": [
@@ -152,7 +152,7 @@
     "/auth/member/{id}": {
       "get": {
         "tags": [
-          "Auth"
+          "Users"
         ],
         "description": "",
         "parameters": [
@@ -208,7 +208,7 @@
     "/auth/update-password": {
       "put": {
         "tags": [
-          "Auth"
+          "Users"
         ],
         "description": "",
         "responses": {
@@ -241,7 +241,7 @@
     "/auth/register/organizer": {
       "post": {
         "tags": [
-          "Auth Organizer"
+          "Organizer"
         ],
         "description": "",
         "responses": {
@@ -266,74 +266,10 @@
         }
       }
     },
-    "/auth/login/organizer": {
-      "post": {
-        "tags": [
-          "Auth Organizer"
-        ],
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginOrganizerRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth/activation/organizer": {
-      "post": {
-        "tags": [
-          "Auth Organizer"
-        ],
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActivationOrganizerRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth/getOrganizer": {
-      "get": {
-        "tags": [
-          "Auth Organizer"
-        ],
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
     "/organizers": {
       "get": {
         "tags": [
-          "Auth Organizer"
+          "Organizer"
         ],
         "description": "",
         "parameters": [
@@ -371,7 +307,7 @@
     "/organizers/{organizerId}": {
       "get": {
         "tags": [
-          "Auth Organizer"
+          "Organizer"
         ],
         "description": "",
         "parameters": [
@@ -394,7 +330,7 @@
     "/auth/update-profile/organizer": {
       "put": {
         "tags": [
-          "Auth Organizer"
+          "Organizer"
         ],
         "description": "",
         "responses": {
@@ -427,7 +363,7 @@
     "/auth/update-password/organizer": {
       "put": {
         "tags": [
-          "Auth Organizer"
+          "Organizer"
         ],
         "description": "",
         "responses": {
@@ -460,7 +396,7 @@
     "/organizer/{organizerId}": {
       "delete": {
         "tags": [
-          "Auth Organizer"
+          "Organizer"
         ],
         "description": "",
         "parameters": [
@@ -1431,6 +1367,34 @@
       }
     },
     "schemas": {
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "example": "rizkyprtm"
+          },
+          "password": {
+            "type": "string",
+            "example": "Member1"
+          }
+        },
+        "xml": {
+          "name": "LoginRequest"
+        }
+      },
+      "ActivationRequest": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "activationCode"
+          }
+        },
+        "xml": {
+          "name": "ActivationRequest"
+        }
+      },
       "RegisterRequest": {
         "type": "object",
         "properties": {
@@ -1465,34 +1429,6 @@
         },
         "xml": {
           "name": "RegisterRequest"
-        }
-      },
-      "LoginRequest": {
-        "type": "object",
-        "properties": {
-          "identifier": {
-            "type": "string",
-            "example": "rizkyprtm"
-          },
-          "password": {
-            "type": "string",
-            "example": "Member1"
-          }
-        },
-        "xml": {
-          "name": "LoginRequest"
-        }
-      },
-      "ActivationRequest": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "example": "activationCode"
-          }
-        },
-        "xml": {
-          "name": "ActivationRequest"
         }
       },
       "UpdateProfileRequest": {
@@ -1590,34 +1526,6 @@
         },
         "xml": {
           "name": "RegisterOrganizerRequest"
-        }
-      },
-      "LoginOrganizerRequest": {
-        "type": "object",
-        "properties": {
-          "identifier": {
-            "type": "string",
-            "example": "yysnSenggol22@gmail.com"
-          },
-          "password": {
-            "type": "string",
-            "example": "Organizer2025"
-          }
-        },
-        "xml": {
-          "name": "LoginOrganizerRequest"
-        }
-      },
-      "ActivationOrganizerRequest": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "example": "activationCode"
-          }
-        },
-        "xml": {
-          "name": "ActivationOrganizerRequest"
         }
       },
       "UpdateProfileOrganizerRequest": {

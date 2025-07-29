@@ -25,6 +25,13 @@ const doc = {
       },
     },
     schemas: {
+      LoginRequest: {
+        identifier: 'rizkyprtm',
+        password: 'Member1',
+      },
+      ActivationRequest: {
+        code: 'activationCode',
+      },
       RegisterRequest: {
         fullName: 'Rizky Pratama',
         username: 'rizkyprtm',
@@ -33,13 +40,6 @@ const doc = {
         phone: '081234567891',
         password: 'Member1',
         confirmPassword: 'Member1',
-      },
-      LoginRequest: {
-        identifier: 'rizkyprtm',
-        password: 'Member1',
-      },
-      ActivationRequest: {
-        code: 'activationCode',
       },
       UpdateProfileRequest: {
         fullName: 'Update Full Name',
@@ -66,13 +66,6 @@ const doc = {
           domicile: 3216,
           address: 'Ujung Harapan',
         },
-      },
-      LoginOrganizerRequest: {
-        identifier: 'yysnSenggol22@gmail.com',
-        password: 'Organizer2025',
-      },
-      ActivationOrganizerRequest: {
-        code: 'activationCode',
       },
       UpdateProfileOrganizerRequest: {
         organizerName: 'Update Name Organizer',
