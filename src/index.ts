@@ -19,11 +19,7 @@ async function init() {
     app.use(bodyParser.urlencoded({ extended: true }));
 
     app.get('/', (req, res) => {
-      res
-        .status(200)
-        .send(
-          '<h1>Hello World</h1><a href="/api-docs"><h1>Documentation</h1></a>`'
-        );
+      res.status(200).send('<h1>Hello World</h1>`');
     });
 
     app.use('/api', router);

@@ -20,6 +20,7 @@ router.post(
   authController.login
   /*
     #swagger.tags = ['Auth']
+    #swagger.description = 'Login user and organizer'
     #swagger.requestBody = {
       required: true,
       content: {
@@ -35,6 +36,7 @@ router.post(
   authController.activation
   /*
   #swagger.tags = ['Auth']
+  #swagger.description = 'activation user and organizer'
   #swagger.requestBody = {
     required: true,
     schema: {$ref: '#/components/schemas/ActivationRequest'}
@@ -42,11 +44,12 @@ router.post(
   */
 );
 router.get(
-  '/auth/getProfile',
+  '/auth/get-profile',
   authMiddleware,
   authController.getProfile
   /*
     #swagger.tags = ['Auth']
+    #swagger.description = 'get profile user and organizer'
     #swagger.security = [{ "bearerAuth": [] }]
   */
 );

@@ -21,7 +21,7 @@
         "tags": [
           "Auth"
         ],
-        "description": "",
+        "description": "Login user and organizer",
         "responses": {
           "default": {
             "description": ""
@@ -44,7 +44,7 @@
         "tags": [
           "Auth"
         ],
-        "description": "",
+        "description": "activation user and organizer",
         "responses": {
           "default": {
             "description": ""
@@ -67,12 +67,12 @@
         }
       }
     },
-    "/auth/getProfile": {
+    "/auth/get-profile": {
       "get": {
         "tags": [
           "Auth"
         ],
-        "description": "",
+        "description": "get profile user and organizer",
         "responses": {
           "default": {
             "description": ""
@@ -175,7 +175,7 @@
     "/auth/update-profile": {
       "put": {
         "tags": [
-          "Auth"
+          "Users"
         ],
         "description": "",
         "responses": {
