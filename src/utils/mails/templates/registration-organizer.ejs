@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Activation Account SiVolunteer</title>
+  </head>
+  <body
+    style="
+      margin: 0;
+      padding: 0;
+      background-color: #f6f8fb;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+        Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+    "
+  >
+    <table
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      style="background-color: #f6f8fb; padding: 40px 0"
+    >
+      <tr>
+        <td align="center">
+          <table
+            width="600"
+            cellpadding="0"
+            cellspacing="0"
+            style="
+              background-color: #ffffff;
+              border-radius: 12px;
+              overflow: hidden;
+              box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            "
+          >
+            <!-- Header -->
+            <tr>
+              <td
+                style="
+                  background-color: #0d6efd;
+                  padding: 30px 0;
+                  text-align: center;
+                "
+              >
+                <h1 style="margin: 0; color: #ffffff; font-size: 24px">
+                  Selamat Datang di
+                  <span style="color: #ffe600">SiVolunteer</span>
+                </h1>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 40px 50px; color: #333">
+                <p style="font-size: 20px; font-weight: bold">
+                  Hai <%= organizerName %>,
+                </p>
+                <p style="margin-bottom: 20px">
+                  Terima kasih telah bergabung sebagai
+                  <strong>Organizer</strong> di <strong>SiVolunteer</strong>.
+                  Peranmu sangat penting dalam menciptakan dampak positif dan
+                  memberdayakan para relawan untuk bergerak bersama dalam aksi
+                  nyata.
+                </p>
+                <table
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  style="background-color: #f0f4ff; border-radius: 10px"
+                >
+                  <tr>
+                    <td style="padding: 20px">
+                      <p style="margin: 0 0 5px; font-size: large">
+                        <strong>📄 Informasi Pendaftaran:</strong>
+                      </p>
+                      <p style="margin: 0">
+                        <strong>Kontak Organizer:</strong> <%= contactPerson %>
+                      </p>
+                      <p style="margin: 0">
+                        <strong>Email:</strong> <%= email %>
+                      </p>
+                      <p style="margin: 0">
+                        <strong>Tanggal Didirikan:</strong> <%= dateEstablished
+                        %>
+                      </p>
+                      <p style="margin: 0">
+                        <strong>Tanggal Daftar:</strong> <%= createdAt %>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+
+                <p style="margin: 30px 0 20px">
+                  Untuk melanjutkan, silakan klik tombol di bawah ini untuk
+                  aktivasi akun Anda:
+                </p>
+
+                <div style="text-align: center; margin-bottom: 40px">
+                  <a
+                    href="<%= activationLink %>"
+                    style="
+                      display: inline-block;
+                      padding: 14px 25px;
+                      background-color: #0d6efd;
+                      color: #ffffff;
+                      font-weight: 600;
+                      font-size: 16px;
+                      text-decoration: none;
+                      border-radius: 8px;
+                      transition: all 0.3s ease;
+                    "
+                  >
+                    🚀 Aktifkan Akun Sekarang
+                  </a>
+                </div>
+
+                <p style="font-size: 14px; color: #666">
+                  Jika kamu tidak merasa mendaftar, kamu bisa mengabaikan email
+                  ini.
+                </p>
+                <p style="margin-top: 30px">
+                  Salam hangat,<br /><strong>Tim siVolunteer</strong>
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  background-color: #f8f9fa;
+                  text-align: center;
+                  padding: 20px;
+                  font-size: 13px;
+                  color: #999;
+                "
+              >
+                &copy; 2025 siVolunteer • All rights reserved<br />
+                <span style="color: #bbb"
+                  >Email ini dikirim otomatis, mohon tidak membalas
+                  langsung.</span
+                >
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
