@@ -61,7 +61,7 @@ export default {
   async getProfile(req: IReqUser, res: Response) {
     try {
       const user = req.user;
-      if (user?.role === 'member') {
+      if (user?.role === 'member' || user?.role === 'admin') {
         const result = await UserModel.findById(user.id);
         if (!result) return response.notFound(res, 'User not found');
         response.success(res, result, 'Success get profile user');
