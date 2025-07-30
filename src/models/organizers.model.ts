@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import * as Yup from 'yup';
 import { encrypt } from '../utils/encryption';
 import { ROLES } from '../utils/constant';
+import { renderMailHtml, sendMail } from '../utils/mails/mail';
+import { CLIENT_HOST, EMAIL_SMTP_USER } from '../utils/env';
 
 const Schema = mongoose.Schema;
 export const ORGANIZER_MODEL_NAME = 'Orginizer';
@@ -129,6 +131,30 @@ OrganizerSchema.pre('save', function (next) {
   organizer.password = encrypt(organizer.password);
   organizer.activationCode = encrypt(organizer.id);
   next();
+});
+
+OrganizerSchema.post('save', async function (doc, next) {
+  try {
+    const organizer = doc;
+    const contentMail = await renderMailHtml('registration-organizer.ejs', {
+      organizerName: organizer.organizerName,
+      contactPerson: organizer.contactPerson,
+      email: organizer.email,
+      dateEstablished: organizer.dateEstablished,
+      createdAt: organizer.createdAt,
+      activationLink: `${CLIENT_HOST}/auth/activation?code=${organizer.activationCode}`,
+    });
+    await sendMail({
+      from: EMAIL_SMTP_USER,
+      to: organizer.email,
+      subject: 'Activation account',
+      html: contentMail,
+    });
+  } catch (error) {
+    console.log(error);
+  } finally {
+    next();
+  }
 });
 
 OrganizerSchema.methods.toJSON = function () {

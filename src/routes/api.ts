@@ -1,7 +1,7 @@
 import express from 'express';
 import authController from '../controllers/auth.controller';
 import authMiddleware from '../middlewares/auth.middleware';
-import authOrganizerController from '../controllers/authOrganizer.controller';
+import organizerController from '../controllers/organizer.controller';
 import categoriesController from '../controllers/categories.controller';
 import aclMiddleware from '../middlewares/acl.middleware';
 import { ROLES } from '../utils/constant';
@@ -11,6 +11,7 @@ import regionController from '../controllers/region.controller';
 import eventsController from '../controllers/events.controller';
 import faqController from '../controllers/faq.controller';
 import eventVolunteerController from '../controllers/eventVolunteer.controller';
+import userController from '../controllers/user.controller';
 
 const router = express.Router();
 
@@ -57,7 +58,7 @@ router.get(
 //* router user
 router.post(
   '/auth/register',
-  authController.register
+  userController.register
   /*
     #swagger.tags = ['Users']
     #swagger.requestBody = {
@@ -69,7 +70,7 @@ router.post(
 router.get(
   '/member',
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
-  authController.getAllUser
+  userController.getAllUser
   /*
     #swagger.tags = ['Users']
     #swagger.security = [{ "bearerAuth": [] }]
@@ -87,7 +88,7 @@ router.get(
 );
 router.get(
   '/auth/member/:id',
-  authController.getUserById
+  userController.getUserById
   /*
     #swagger.tags = ['Users']
   */
@@ -95,7 +96,7 @@ router.get(
 router.put(
   '/auth/update-profile',
   authMiddleware,
-  authController.updateProfile
+  userController.updateProfile
   /*
   #swagger.tags = ['Users']
   #swagger.security = [{ "bearerAuth": [] }]
@@ -108,7 +109,7 @@ router.put(
 router.put(
   '/auth/update-password',
   authMiddleware,
-  authController.updatePassword
+  userController.updatePassword
   /*
   #swagger.tags = ['Users']
   #swagger.security = [{ "bearerAuth": [] }]
@@ -122,7 +123,7 @@ router.put(
 //* routes organizer
 router.post(
   '/auth/register/organizer',
-  authOrganizerController.registerOrganizer
+  organizerController.registerOrganizer
   /*
     #swagger.tags = ['Organizer']
     #swagger.requestBody = {
@@ -133,7 +134,7 @@ router.post(
 );
 router.get(
   '/organizers',
-  authOrganizerController.getAllOrganizers
+  organizerController.getAllOrganizers
   /*
     #swagger.tags = ['Organizer']
     #swagger.parameters['limit'] = { in: 'query', type: 'number', default: 10 }
@@ -142,7 +143,7 @@ router.get(
 );
 router.get(
   '/organizers/:organizerId',
-  authOrganizerController.getOrganizerById
+  organizerController.getOrganizerById
   /*
   #swagger.tags = ['Organizer']
   #swagger.parameters['organizerId'] = { in: 'path', type: 'string' }
@@ -151,7 +152,7 @@ router.get(
 router.put(
   '/auth/update-profile/organizer',
   [authMiddleware, aclMiddleware([ROLES.ORGANIZER])],
-  authOrganizerController.updateProfileOrganizer
+  organizerController.updateProfileOrganizer
   /*
   #swagger.tags = ['Organizer']
   #swagger.security = [{ "bearerAuth": [] }]
@@ -164,7 +165,7 @@ router.put(
 router.put(
   '/auth/update-password/organizer',
   authMiddleware,
-  authOrganizerController.updatePasswordOrganizer
+  organizerController.updatePasswordOrganizer
   /*
   #swagger.tags = ['Organizer']
   #swagger.security = [{ "bearerAuth": [] }]
@@ -177,7 +178,7 @@ router.put(
 router.delete(
   '/organizer/:organizerId',
   [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
-  authOrganizerController.deleteOrganizer
+  organizerController.deleteOrganizer
   /*
     #swagger.tags = ['Organizer']
     #swagger.security = [{ "bearerAuth": [] }]
