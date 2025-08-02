@@ -414,6 +414,11 @@ router.get(
   */
 );
 router.get(
+  '/event-volunteers/member',
+  [authMiddleware, aclMiddleware([ROLES.MEMBER])],
+  eventVolunteerController.getEventVolunteerByMember
+);
+router.get(
   '/event-volunteers/:eventId',
   [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
   eventVolunteerController.getEventVolunteerByEvent

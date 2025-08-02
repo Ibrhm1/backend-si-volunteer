@@ -20,7 +20,6 @@ export const eventVolunteerDAO = Yup.object({
   skills: Yup.array().of(Yup.string()).min(1).required(),
   portfolioUrl: Yup.string().url().nullable(),
   registeredAt: Yup.string(),
-  isVerified: Yup.boolean().default(false),
 });
 
 export type TypeEventVolunteer = Yup.InferType<typeof eventVolunteerDAO>;
@@ -67,10 +66,6 @@ const eventVolunteerSchema = new Schema<IEventVolunteer>(
     registeredAt: {
       type: Schema.Types.String,
       required: false,
-    },
-    isVerified: {
-      type: Schema.Types.Boolean,
-      default: false,
     },
   },
   {

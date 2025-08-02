@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { IReqUser } from '../utils/interfaces';
+import { IPaginationQuery, IReqUser } from '../utils/interfaces';
 import response from '../utils/response';
 import EventVolunteerModel, {
   eventVolunteerDAO,
@@ -83,6 +83,33 @@ export default {
           totalPages: Math.ceil(count / +limit),
         },
         'Success get eventVolunteers'
+      );
+    } catch (error) {
+      const err = error as unknown as Error;
+      response.error(res, error, err.message);
+    }
+  },
+  async getEventVolunteerByMember(req: IReqUser, res: Response) {
+    const { limit = 10, page = 1 } = req.query as unknown as IPaginationQuery;
+    const query = {};
+
+    try {
+      const userId = req.user?.id;
+      const result = await EventVolunteerModel.find({ userId, ...query })
+        .limit(+limit)
+        .skip((+page - 1) * +limit)
+        .sort({ createdAt: -1 })
+        .exec();
+      const count = await EventVolunteerModel.countDocuments(query);
+      response.pagination(
+        res,
+        result,
+        {
+          current: page,
+          total: count,
+          totalPages: Math.ceil(count / limit),
+        },
+        'Success get eventVolunteer by member'
       );
     } catch (error) {
       const err = error as unknown as Error;

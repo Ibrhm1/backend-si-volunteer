@@ -7,6 +7,7 @@ import { encrypt } from '../utils/encryption';
 import { IPaginationQuery, IReqUser } from '../utils/interfaces';
 import response from '../utils/response';
 import { isValidObjectId } from 'mongoose';
+import { ROLES } from '../utils/constant';
 
 export default {
   async register(req: Request, res: Response) {
@@ -49,7 +50,7 @@ export default {
     try {
       const { limit = 10, page = 1 } = req.query as unknown as IPaginationQuery;
 
-      const result = await UserModel.find({ role: 'member' })
+      const result = await UserModel.find({ role: ROLES.MEMBER })
         .limit(limit)
         .skip((page - 1) * limit)
         .sort({ createdAt: -1 })

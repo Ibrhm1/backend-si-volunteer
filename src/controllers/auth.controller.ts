@@ -1,15 +1,9 @@
 import { Request, Response } from 'express';
-import * as Yup from 'yup';
-import UserModel, {
-  userDTO,
-  userLoginDTO,
-  userUpdatePasswordDTO,
-} from '../models/user.model';
+import UserModel, { userLoginDTO } from '../models/user.model';
 import { encrypt } from '../utils/encryption';
 import { generateToken } from '../utils/jwt';
-import { IPaginationQuery, IReqUser } from '../utils/interfaces';
+import { IReqUser } from '../utils/interfaces';
 import response from '../utils/response';
-import { isValidObjectId } from 'mongoose';
 import OrganizerModel from '../models/organizers.model';
 
 export default {
@@ -58,6 +52,8 @@ export default {
       return response.error(res, error, err.message);
     }
   },
+
+
   async getProfile(req: IReqUser, res: Response) {
     try {
       const user = req.user;
