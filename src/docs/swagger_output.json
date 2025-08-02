@@ -1065,6 +1065,42 @@
         ]
       }
     },
+    "/event-volunteers/member": {
+      "get": {
+        "tags": [
+          "Event Volunteers"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "default": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "default": 1,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ]
+      }
+    },
     "/event-volunteers/{eventId}": {
       "get": {
         "tags": [
