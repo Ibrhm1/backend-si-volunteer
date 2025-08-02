@@ -417,6 +417,12 @@ router.get(
   '/event-volunteers/member',
   [authMiddleware, aclMiddleware([ROLES.MEMBER])],
   eventVolunteerController.getEventVolunteerByMember
+  /*
+    #swagger.tags = ['Event Volunteers'],
+    #swagger.security = [{ "bearerAuth": {} }]
+    #swagger.parameters['limit'] = { in: 'query', type: 'number', default: 10 }
+    #swagger.parameters['page'] = { in: 'query', type: 'number', default: 1 }
+  */
 );
 router.get(
   '/event-volunteers/:eventId',
