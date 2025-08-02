@@ -661,13 +661,6 @@
             "schema": {
               "type": "boolean"
             }
-          },
-          {
-            "name": "isFeatured",
-            "in": "query",
-            "schema": {
-              "type": "boolean"
-            }
           }
         ],
         "responses": {
@@ -790,7 +783,7 @@
         }
       }
     },
-    "/events/{organizerId}/organizer": {
+    "/organizer/events": {
       "get": {
         "tags": [
           "Events"
@@ -798,11 +791,26 @@
         "description": "",
         "parameters": [
           {
-            "name": "organizerId",
-            "in": "path",
-            "required": true,
+            "name": "search",
+            "in": "query",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "default": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "default": 1,
+            "schema": {
+              "type": "number"
             }
           }
         ],
@@ -810,7 +818,12 @@
           "default": {
             "description": ""
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ]
       }
     },
     "/Faq": {
