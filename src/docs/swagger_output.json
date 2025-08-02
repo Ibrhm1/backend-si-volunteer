@@ -668,6 +668,49 @@
         }
       }
     },
+    "/events/organizers": {
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "default": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "default": 1,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ]
+      }
+    },
     "/events/{id}": {
       "get": {
         "tags": [
@@ -781,50 +824,7 @@
         }
       }
     },
-    "/organizers/events": {
-      "get": {
-        "tags": [
-          "Events"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "search",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "default": 10,
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "default": 1,
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ]
-      }
-    },
-    "/Faq": {
+    "/faqs": {
       "post": {
         "tags": [
           "Frequently Asked Questions"
@@ -893,7 +893,7 @@
         }
       }
     },
-    "/Faq/{id}": {
+    "/faqs/{id}": {
       "get": {
         "tags": [
           "Frequently Asked Questions"

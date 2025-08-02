@@ -280,6 +280,17 @@ router.get(
     */
 );
 router.get(
+  '/events/organizers',
+  [authMiddleware, aclMiddleware([ROLES.ORGANIZER])],
+  eventsController.getEventByOrganizer
+  /*
+    #swagger.tags = ['Events'],
+    #swagger.security = [{ "bearerAuth": {} }]
+    #swagger.parameters['limit'] = { in: 'query', type: 'number', default: 10 }
+    #swagger.parameters['page'] = { in: 'query', type: 'number', default: 1 }
+  */
+);
+router.get(
   '/events/:id',
   eventsController.getEventById
   /*
@@ -291,17 +302,6 @@ router.get(
   eventsController.getEventBySlug
   /*
     #swagger.tags = ['Events'],
-  */
-);
-router.get(
-  '/organizers/events',
-  [authMiddleware, aclMiddleware([ROLES.ORGANIZER])],
-  eventsController.getEventByOrganizer
-  /*
-    #swagger.tags = ['Events'],
-    #swagger.security = [{ "bearerAuth": {} }]
-    #swagger.parameters['limit'] = { in: 'query', type: 'number', default: 10 }
-    #swagger.parameters['page'] = { in: 'query', type: 'number', default: 1 }
   */
 );
 router.put(
@@ -331,7 +331,7 @@ router.delete(
 
 //* router FaQ
 router.post(
-  '/Faq',
+  '/faqs',
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
   faqController.createFAQ
   /*
@@ -346,7 +346,7 @@ router.post(
    */
 );
 router.get(
-  '/Faq',
+  '/faqs',
   faqController.getFAQ
   /*
     #swagger.tags = ['Frequently Asked Questions'],
@@ -355,14 +355,14 @@ router.get(
   */
 );
 router.get(
-  '/Faq/:id',
+  '/faqs/:id',
   faqController.getFAQById
   /*
     #swagger.tags = ['Frequently Asked Questions'],
   */
 );
 router.put(
-  '/Faq/:id',
+  '/faqs/:id',
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
   faqController.updateFAQ
   /*
@@ -377,7 +377,7 @@ router.put(
    */
 );
 router.delete(
-  '/Faq/:id',
+  '/faqs/:id',
   [authMiddleware, aclMiddleware([ROLES.ADMIN])],
   faqController.deleteFAQ
   /*

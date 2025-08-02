@@ -71,7 +71,7 @@ export default {
       const { id } = req.params;
 
       if (!isValidObjectId(id))
-        return response.notFound(res, 'Event not found');
+        return response.notFound(res, 'Id event not found');
 
       const result = await EventModel.findById(id);
 
@@ -145,9 +145,10 @@ export default {
       search,
     } = req.query as unknown as IPaginationQuery;
     const query = {};
-    
+
     try {
       const organizerId = req.organizer?.id;
+      if (!organizerId) return response.notFound(res, 'Organizer not found');
       if (search) {
         Object.assign(query, {
           ...query,
