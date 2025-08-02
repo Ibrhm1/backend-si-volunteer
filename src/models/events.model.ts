@@ -20,7 +20,6 @@ export const EventDAO = Yup.object({
   category: Yup.string().required('Category is required'),
   isOnline: Yup.boolean().required('Online status is required'),
   isPublish: Yup.boolean().required('Publish status is required'),
-  isFeatured: Yup.boolean().required('Featured status is required'),
   location: Yup.object().shape({
     region: Yup.number().required('Region is required'),
     address: Yup.string().required('Address is required'),
@@ -79,10 +78,6 @@ const EventSchema = new Schema<IEvent>(
       required: true,
     },
     isPublish: {
-      type: Schema.Types.Boolean,
-      required: true,
-    },
-    isFeatured: {
       type: Schema.Types.Boolean,
       required: true,
     },

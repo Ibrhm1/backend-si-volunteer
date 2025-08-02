@@ -277,7 +277,6 @@ router.get(
     #swagger.parameters['page'] = { in: 'query', type: 'number', default: 1 }
     #swagger.parameters['isOnline'] = { in: 'query', type: 'boolean' }
     #swagger.parameters['isPublish'] = { in: 'query', type: 'boolean' }
-    #swagger.parameters['isFeatured'] = { in: 'query', type: 'boolean' }
     */
 );
 router.get(
@@ -295,10 +294,14 @@ router.get(
   */
 );
 router.get(
-  '/events/:organizerId/organizer',
+  '/organizer/events',
+  [authMiddleware, aclMiddleware([ROLES.ORGANIZER])],
   eventsController.getEventByOrganizer
   /*
     #swagger.tags = ['Events'],
+    #swagger.security = [{ "bearerAuth": {} }]
+    #swagger.parameters['limit'] = { in: 'query', type: 'number', default: 10 }
+    #swagger.parameters['page'] = { in: 'query', type: 'number', default: 1 }
   */
 );
 router.put(

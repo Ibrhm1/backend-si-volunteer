@@ -26,7 +26,6 @@ export default {
         if (filter.category) query.category = filter.category;
         if (filter.isOnline) query.isOnline = filter.isOnline;
         if (filter.isPublish) query.isPublish = filter.isPublish;
-        if (filter.isFeatured) query.isFeatured = filter.isFeatured;
         return query;
       };
 
@@ -37,7 +36,6 @@ export default {
         category,
         isOnline,
         isPublish,
-        isFeatured,
       } = req.query;
 
       const query = buildQuery({
@@ -45,7 +43,6 @@ export default {
         category,
         isOnline,
         isPublish,
-        isFeatured,
       });
 
       const result = await EventModel.find(query)
@@ -142,13 +139,37 @@ export default {
     }
   },
   async getEventByOrganizer(req: IReqUser, res: Response) {
+    const {
+      limit = 10,
+      page = 1,
+      search,
+    } = req.query as unknown as IPaginationQuery;
+    const query = {};
+    
     try {
-      const { organizerId } = req.params;
-      if (!isValidObjectId(organizerId))
-        return response.notFound(res, 'Organizer not found');
-
-      const result = await EventModel.find({ createdBy: organizerId });
-      response.success(res, result, 'Success get event by organizer');
+      const organizerId = req.organizer?.id;
+      if (search) {
+        Object.assign(query, {
+          ...query,
+          $text: { $search: search },
+        });
+      }
+      const result = await EventModel.find({ createdBy: organizerId, ...query })
+        .limit(+limit)
+        .skip((+page - 1) * +limit)
+        .sort({ createdAt: -1 })
+        .exec();
+      const count = await EventModel.countDocuments(result);
+      response.pagination(
+        res,
+        result,
+        {
+          current: +page,
+          total: count,
+          totalPages: Math.ceil(count / limit),
+        },
+        'Success get event by organizer'
+      );
     } catch (error) {
       const err = error as unknown as Error;
       response.error(res, error, err.message);
