@@ -238,10 +238,10 @@
         }
       }
     },
-    "/auth/register/organizer": {
+    "/auth/register/organizers": {
       "post": {
         "tags": [
-          "Organizer"
+          "Organizers"
         ],
         "description": "",
         "responses": {
@@ -269,7 +269,7 @@
     "/organizers": {
       "get": {
         "tags": [
-          "Organizer"
+          "Organizers"
         ],
         "description": "",
         "parameters": [
@@ -307,7 +307,7 @@
     "/organizers/{organizerId}": {
       "get": {
         "tags": [
-          "Organizer"
+          "Organizers"
         ],
         "description": "",
         "parameters": [
@@ -325,78 +325,10 @@
             "description": ""
           }
         }
-      }
-    },
-    "/auth/update-profile/organizer": {
-      "put": {
-        "tags": [
-          "Organizer"
-        ],
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProfileOrganizerRequest"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProfileOrganizerRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth/update-password/organizer": {
-      "put": {
-        "tags": [
-          "Organizer"
-        ],
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdatePasswordOrganizerRequest"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdatePasswordOrganizerRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/organizer/{organizerId}": {
+      },
       "delete": {
         "tags": [
-          "Organizer"
+          "Organizers"
         ],
         "description": "",
         "parameters": [
@@ -419,6 +351,72 @@
             "bearerAuth": []
           }
         ]
+      }
+    },
+    "/auth/update-profile/organizers": {
+      "put": {
+        "tags": [
+          "Organizers"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileOrganizerRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileOrganizerRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/update-password/organizers": {
+      "put": {
+        "tags": [
+          "Organizers"
+        ],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePasswordOrganizerRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePasswordOrganizerRequest"
+              }
+            }
+          }
+        }
       }
     },
     "/category": {
@@ -783,7 +781,7 @@
         }
       }
     },
-    "/organizer/events": {
+    "/organizers/events": {
       "get": {
         "tags": [
           "Events"
@@ -985,7 +983,7 @@
         ]
       }
     },
-    "/events/{eventId}/volunteer": {
+    "/event-volunteers/{eventId}": {
       "post": {
         "tags": [
           "Event Volunteers"
@@ -1026,6 +1024,32 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": [
+          "Event Volunteers"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": {}
+          }
+        ]
       }
     },
     "/event-volunteers": {
@@ -1114,35 +1138,7 @@
         ]
       }
     },
-    "/event-volunteers/{eventId}": {
-      "get": {
-        "tags": [
-          "Event Volunteers"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "eventId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ]
-      }
-    },
-    "/event-volunteer/{eventVolunteerId}/status": {
+    "/event-volunteers/{eventVolunteerId}/status": {
       "put": {
         "tags": [
           "Event Volunteers"

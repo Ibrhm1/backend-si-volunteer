@@ -122,10 +122,10 @@ router.put(
 
 //* routes organizer
 router.post(
-  '/auth/register/organizer',
+  '/auth/register/organizers',
   organizerController.registerOrganizer
   /*
-    #swagger.tags = ['Organizer']
+    #swagger.tags = ['Organizers']
     #swagger.requestBody = {
       required: true,
       schema: {$ref: '#/components/schemas/RegisterOrganizerRequest'}
@@ -136,7 +136,7 @@ router.get(
   '/organizers',
   organizerController.getAllOrganizers
   /*
-    #swagger.tags = ['Organizer']
+    #swagger.tags = ['Organizers']
     #swagger.parameters['limit'] = { in: 'query', type: 'number', default: 10 }
     #swagger.parameters['page'] = { in: 'query', type: 'number', default: 1 }
    */
@@ -145,16 +145,16 @@ router.get(
   '/organizers/:organizerId',
   organizerController.getOrganizerById
   /*
-  #swagger.tags = ['Organizer']
+  #swagger.tags = ['Organizers']
   #swagger.parameters['organizerId'] = { in: 'path', type: 'string' }
   */
 );
 router.put(
-  '/auth/update-profile/organizer',
+  '/auth/update-profile/organizers',
   [authMiddleware, aclMiddleware([ROLES.ORGANIZER])],
   organizerController.updateProfileOrganizer
   /*
-  #swagger.tags = ['Organizer']
+  #swagger.tags = ['Organizers']
   #swagger.security = [{ "bearerAuth": [] }]
   #swagger.requestBody = {
     required: true,
@@ -163,11 +163,11 @@ router.put(
     */
 );
 router.put(
-  '/auth/update-password/organizer',
+  '/auth/update-password/organizers',
   authMiddleware,
   organizerController.updatePasswordOrganizer
   /*
-  #swagger.tags = ['Organizer']
+  #swagger.tags = ['Organizers']
   #swagger.security = [{ "bearerAuth": [] }]
   #swagger.requestBody = {
     required: true,
@@ -176,11 +176,11 @@ router.put(
   */
 );
 router.delete(
-  '/organizer/:organizerId',
+  '/organizers/:organizerId',
   [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
   organizerController.deleteOrganizer
   /*
-    #swagger.tags = ['Organizer']
+    #swagger.tags = ['Organizers']
     #swagger.security = [{ "bearerAuth": [] }]
     #swagger.parameters['organizerId'] = { in: 'path', type: 'string' }
   */
@@ -294,7 +294,7 @@ router.get(
   */
 );
 router.get(
-  '/organizer/events',
+  '/organizers/events',
   [authMiddleware, aclMiddleware([ROLES.ORGANIZER])],
   eventsController.getEventByOrganizer
   /*
@@ -388,7 +388,7 @@ router.delete(
 
 //* event volunteer
 router.post(
-  '/events/:eventId/volunteer',
+  '/event-volunteers/:eventId',
   [authMiddleware, aclMiddleware([ROLES.MEMBER])],
   eventVolunteerController.createEventVolunteer
   /**
@@ -438,7 +438,7 @@ router.get(
   */
 );
 router.put(
-  '/event-volunteer/:eventVolunteerId/status',
+  '/event-volunteers/:eventVolunteerId/status',
   [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
   eventVolunteerController.updateStatusEventVolunteer
   /*
