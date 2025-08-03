@@ -490,7 +490,7 @@ router.post(
 );
 router.delete(
   '/image/delete-file',
-  [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.MEMBER])],
+  authMiddleware,
   imageController.deleteFile
   /*
     #swagger.tags = ['Image File'],
