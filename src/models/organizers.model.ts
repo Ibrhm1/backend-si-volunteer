@@ -10,7 +10,7 @@ export const ORGANIZER_MODEL_NAME = 'Orginizer';
 
 const validatePasswordOrganizer = Yup.string()
   .required()
-  .min(6, 'Password must be at least 6 characters')
+  .min(8, 'Password must be at least 6 characters')
   .test(
     'at least one uppercase',
     'Password must contain at least one uppercase letter',

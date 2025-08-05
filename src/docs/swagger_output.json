@@ -1693,10 +1693,6 @@
             "type": "boolean",
             "example": true
           },
-          "isFeatured": {
-            "type": "boolean",
-            "example": false
-          },
           "location": {
             "type": "object",
             "properties": {

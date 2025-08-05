@@ -100,7 +100,6 @@ const doc = {
         category: 'Category Id',
         isOnline: false,
         isPublish: true,
-        isFeatured: false,
         location: {
           region: 31,
           address: 'Jl. Otto Iskandardinata, Kampung Melayu, Jakarta Timur',
