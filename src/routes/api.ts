@@ -429,7 +429,6 @@ router.get(
 );
 router.get(
   '/event-volunteers/:eventId',
-  [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
   eventVolunteerController.getEventVolunteerByEvent
   /*
     #swagger.tags = ['Event Volunteers'],
