@@ -15,10 +15,9 @@ export const eventVolunteerDAO = Yup.object({
     STATUS.ACCEPTED,
     STATUS.REJECTED,
   ]),
-  motivation: Yup.string().min(10).required(),
-  experience: Yup.string().optional().max(500),
-  skills: Yup.array().of(Yup.string()).min(1).required(),
-  portfolioUrl: Yup.string().url().nullable(),
+  motivation: Yup.string().required(),
+  phone: Yup.string().required(),
+  email: Yup.string().email().required(),
   registeredAt: Yup.string(),
 });
 
@@ -51,15 +50,11 @@ const eventVolunteerSchema = new Schema<IEventVolunteer>(
       type: Schema.Types.String,
       required: true,
     },
-    experience: {
+    phone: {
       type: Schema.Types.String,
-      required: false,
-    },
-    skills: {
-      type: [Schema.Types.String],
       required: true,
     },
-    portfolioUrl: {
+    email: {
       type: Schema.Types.String,
       required: false,
     },

@@ -87,7 +87,7 @@ router.get(
   */
 );
 router.get(
-  '/auth/member/:id',
+  '/member/:id',
   userController.getUserById
   /*
     #swagger.tags = ['Users']
