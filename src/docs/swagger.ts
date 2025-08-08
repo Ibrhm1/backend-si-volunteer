@@ -71,10 +71,6 @@ const doc = {
         contactPerson: '',
         phone: '',
         descriptionOrganizer: '',
-        location: {
-          domicile: 'region id',
-          address: '',
-        },
         logo: 'file url',
       },
       UpdatePasswordOrganizerRequest: {

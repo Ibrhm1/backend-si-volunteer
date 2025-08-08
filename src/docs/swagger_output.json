@@ -1592,19 +1592,6 @@
             "type": "string",
             "example": ""
           },
-          "location": {
-            "type": "object",
-            "properties": {
-              "domicile": {
-                "type": "string",
-                "example": "region id"
-              },
-              "address": {
-                "type": "string",
-                "example": ""
-              }
-            }
-          },
           "logo": {
             "type": "string",
             "example": "file url"
