@@ -453,7 +453,7 @@ router.put(
 );
 router.delete(
   '/event-volunteers/:eventVolunteerId',
-  [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+  [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.ORGANIZER])],
   eventVolunteerController.deleteEventVolunteer
   /*
     #swagger.tags = ['Event Volunteers'],
