@@ -801,6 +801,29 @@
         ]
       }
     },
+    "/events/createdBy/{organizerId}": {
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "organizerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/events/{slug}/slug": {
       "get": {
         "tags": [

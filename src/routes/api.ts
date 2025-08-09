@@ -298,6 +298,13 @@ router.get(
    */
 );
 router.get(
+  '/events/createdBy/:organizerId',
+  eventsController.getEventByOrganzer
+  /*
+    #swagger.tags = ['Events'],
+   */
+);
+router.get(
   '/events/:slug/slug',
   eventsController.getEventBySlug
   /*

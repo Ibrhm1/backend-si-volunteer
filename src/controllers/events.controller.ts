@@ -82,6 +82,19 @@ export default {
       response.error(res, error, 'Failed get event by id');
     }
   },
+  async getEventByOrganzer(req: IReqUser, res: Response) {
+    try {
+      const { organizerId } = req.params;
+      if (!isValidObjectId(organizerId))
+        return response.notFound(res, 'Organizer not found');
+
+      const result = await EventModel.find({ createdBy: organizerId });
+      if (!result) return response.notFound(res, 'Event not found');
+      response.success(res, result, 'Success get event by organizer');
+    } catch (error) {
+      response.error(res, error, 'Failed get event by organizer');
+    }
+  },
   async updateEvent(req: IReqUser, res: Response) {
     try {
       const { id } = req.params;
