@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import db from './utils/database';
 import docs from './docs/route';
 import cors from 'cors';
+import errorGlobalMiddleware from './middlewares/errorGlobal.middleware';
 
 async function init() {
   try {
@@ -24,6 +25,9 @@ async function init() {
 
     app.use('/api', router);
     docs(app);
+
+    app.use(errorGlobalMiddleware.serverRouter());
+    app.use(errorGlobalMiddleware.serverError());
 
     app.listen(PORT, () => {
       console.log(`⚡[server] Server is running at http://localhost:${PORT}`);
