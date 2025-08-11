@@ -33,7 +33,6 @@ export interface IOrganizerToken
     | 'descriptionOrganizer'
     | 'dateEstablished'
     | 'logo'
-    | 'verified'
   > {
   id?: Types.ObjectId;
 }

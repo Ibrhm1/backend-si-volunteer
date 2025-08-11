@@ -58,7 +58,6 @@ export type TyperOrganizer = Yup.InferType<typeof organizerDTO>;
 export interface IOrganizer extends Omit<TyperOrganizer, 'confirmPassword'> {
   role: string;
   logo: string;
-  verified: boolean;
   active: boolean;
   activationCode: string;
   createdAt?: string;
@@ -108,10 +107,6 @@ const OrganizerSchema = new Schema<IOrganizer>(
     logo: {
       type: Schema.Types.String,
       default: 'logo.png',
-    },
-    verified: {
-      type: Schema.Types.Boolean,
-      default: false,
     },
     active: {
       type: Schema.Types.Boolean,

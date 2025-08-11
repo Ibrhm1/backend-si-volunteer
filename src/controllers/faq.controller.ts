@@ -1,8 +1,8 @@
 import { Response } from 'express';
 import { IPaginationQuery, IReqUser } from '../utils/interfaces';
 import response from '../utils/response';
-import FaqModel, { faqDAO } from '../models/faq.model';
-import { isValidObjectId } from 'mongoose';
+import FaqModel, { faqDAO, TypeFaq } from '../models/faq.model';
+import { FilterQuery, isValidObjectId } from 'mongoose';
 
 export default {
   async createFAQ(req: IReqUser, res: Response) {
@@ -16,22 +16,23 @@ export default {
     }
   },
   async getFAQ(req: IReqUser, res: Response) {
-    const {
-      limit = 10,
-      page = 1,
-      search,
-    } = req.query as unknown as IPaginationQuery;
+    const buildQuery = (filter: any) => {
+      let query: FilterQuery<TypeFaq> = {};
+      if (filter.search) query.$text = { $search: filter.search };
+      if (filter.isPublish) query.isPublish = filter.isPublish;
+      return query;
+    };
     try {
-      const query = {};
-      if (search) {
-        Object.assign(query, {
-          ...query,
-          $text: { $search: search },
-        });
-      }
+      const { limit = 10, page = 1, search, isPublish } = req.query;
+
+      const query = buildQuery({
+        search,
+        isPublish,
+      });
+
       const result = await FaqModel.find(query)
-        .limit(limit)
-        .skip((page - 1) * limit)
+        .limit(+limit)
+        .skip((+page - 1) * +limit)
         .sort({ createdAt: -1 })
         .exec();
 
@@ -40,9 +41,9 @@ export default {
         res,
         result,
         {
-          current: page,
+          current: +page,
           total: count,
-          totalPages: Math.ceil(count / limit),
+          totalPages: Math.ceil(count / +limit),
         },
         'Success get faqs'
       );
